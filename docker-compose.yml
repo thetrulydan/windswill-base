@@ -1,0 +1,17 @@
+services:
+  local:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - app_cache:/root/.cache
+    ports:
+      - "5173:5173"
+      - "3000:3000"
+    command: pnpm dev
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:./data.db
+
+volumes:
+  app_cache:
