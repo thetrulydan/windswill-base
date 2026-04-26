@@ -1,0 +1,101 @@
+import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import type { LucideIcon } from 'lucide-react';
+
+type IconButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive';
+
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: LucideIcon;
+  variant?: IconButtonVariant;
+  size?: 'sm' | 'md' | 'lg';
+  label?: string;
+}
+
+const sizeMap = {
+  sm: 28,
+  md: 36,
+  lg: 48,
+};
+
+const iconSizeMap = {
+  sm: 14,
+  md: 18,
+  lg: 24,
+};
+
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ icon: Icon, variant = 'ghost', size = 'md', label, className, style, disabled, ...props }, ref) => {
+    const dimension = sizeMap[size];
+    
+    const getVariantStyles = (): React.CSSProperties => {
+      const base: React.CSSProperties = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 0,
+        border: 'none',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.35 : 1,
+      };
+
+      if (variant === 'primary') {
+        base.border = '1px solid var(--color-text-muted)';
+      } else if (variant === 'secondary') {
+        base.borderBottom = '1px solid var(--color-text-muted)';
+      }
+
+      return base;
+    };
+
+    return (
+      <button
+        ref={ref}
+        className={twMerge(clsx('inline-flex items-center justify-center', className))}
+        style={{
+          width: dimension,
+          height: dimension,
+          background: 'transparent',
+          color: 'var(--color-text-muted)',
+          ...getVariantStyles(),
+          ...style,
+        }}
+        disabled={disabled}
+        onMouseEnter={(e) => {
+          if (disabled) return;
+          e.currentTarget.style.color = 'var(--color-text)';
+          if (variant === 'primary') {
+            e.currentTarget.style.borderColor = 'var(--color-gray-700)';
+          } else if (variant === 'secondary') {
+            e.currentTarget.style.borderColor = 'var(--color-gray-700)';
+          } else if (variant === 'ghost') {
+            e.currentTarget.style.background = 'var(--color-surface-hover)';
+          } else if (variant === 'destructive') {
+            e.currentTarget.style.background = 'var(--color-error)';
+            e.currentTarget.style.color = 'var(--color-background)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (disabled) return;
+          e.currentTarget.style.color = 'var(--color-text-muted)';
+          if (variant === 'primary') {
+            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+          } else if (variant === 'secondary') {
+            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+          } else if (variant === 'ghost') {
+            e.currentTarget.style.background = 'transparent';
+          } else if (variant === 'destructive') {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'var(--color-error)';
+          }
+        }}
+        {...props}
+        title={label}
+      >
+        <Icon size={iconSizeMap[size]} />
+      </button>
+    );
+  }
+);
+
+IconButton.displayName = 'IconButton';

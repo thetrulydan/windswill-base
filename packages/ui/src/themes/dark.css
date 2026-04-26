@@ -1,54 +1,32 @@
 :root,
 [data-theme="light"] {
-  --color-gray-950: #fafafa;
-  --color-gray-900: #f5f5f5;
-  --color-gray-800: #e5e5e5;
-  --color-gray-700: #d4d4d4;
-  --color-gray-300: #737373;
-  --color-gray-200: #525252;
-  --color-gray-100: #404040;
-  --color-gray-50: #262626;
-  --color-white: #171717;
-
-  --color-background: var(--color-gray-950);
-  --color-surface: var(--color-gray-900);
-  --color-surface-raised: var(--color-gray-800);
-  --color-border: var(--color-gray-700);
-  --color-text: var(--color-gray-50);
-  --color-text-muted: var(--color-gray-300);
-
-  --button-primary-bg: var(--color-gray-50);
-  --button-primary-text: var(--color-white);
-  --input-border: var(--color-border);
-
-  --font-display: system-ui, sans-serif;
-  --font-body: system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  --color-background:       #f5f5f5;
+  --color-surface:          #ffffff;
+  --color-surface-raised:   #f0f0f0;
+  --color-surface-hover:    #e8e8e8;
+  --color-border:           #d4d4d4;
+  --color-border-strong:    #000000;
+  --color-text:             #111111;
+  --color-text-muted:       #666666;
+  --color-text-disabled:    #aaaaaa;
+  --color-success:          #16a34a;
+  --color-warning:          #ca8a04;
+  --color-error:            #dc2626;
+  --color-info:             #2563eb;
 }
 
 [data-theme="dark"] {
-  --color-gray-950: #0a0a0a;
-  --color-gray-900: #171717;
-  --color-gray-800: #262626;
-  --color-gray-700: #404040;
-  --color-gray-300: #a3a3a3;
-  --color-gray-200: #d4d4d4;
-  --color-gray-100: #e5e5e5;
-  --color-gray-50: #fafafa;
-  --color-white: #ffffff;
-
-  --color-background: var(--color-gray-950);
-  --color-surface: var(--color-gray-900);
-  --color-surface-raised: var(--color-gray-800);
-  --color-border: var(--color-gray-700);
-  --color-text: var(--color-gray-50);
-  --color-text-muted: var(--color-gray-300);
-
-  --button-primary-bg: var(--color-white);
-  --button-primary-text: var(--color-gray-950);
-  --input-border: var(--color-border);
-
-  --font-display: system-ui, sans-serif;
-  --font-body: system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  --color-background:       #1e1e1e;
+  --color-surface:          #272727;
+  --color-surface-raised:   #2e2e2e;
+  --color-surface-hover:    #333333;
+  --color-border:           #3a3a3a;
+  --color-border-strong:    #ffffff;
+  --color-text:             #ffffff;
+  --color-text-muted:       #888888;
+  --color-text-disabled:    #555555;
+  --color-success:          #4ade80;
+  --color-warning:          #facc15;
+  --color-error:            #f87171;
+  --color-info:             #60a5fa;
 }

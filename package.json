@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
     "dev:web": "pnpm --filter web run dev",
+    "dev:demo": "pnpm --filter demo run dev",
     "dev:local": "pnpm --filter local run dev",
     "build": "pnpm -r run build",
     "build:web": "pnpm --filter web run build",

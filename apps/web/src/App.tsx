@@ -43,7 +43,7 @@ export function App() {
       }}>
         <Heading level={1}>windswill-base</Heading>
         <Text variant="muted">Offline-first application foundation</Text>
-        <Button variant="outline" onClick={() => setMode('offline')}>
+        <Button variant="ghost" onClick={() => setMode('offline')}>
           Work Offline
         </Button>
       </div>
