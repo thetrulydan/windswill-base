@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode, memo } from 'react';
 import { AlertCircle, CheckCircle, Info, XCircle } from 'lucide-react';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
@@ -16,7 +16,7 @@ const variantConfig: Record<AlertVariant, { icon: typeof Info; color: string }> 
   error: { icon: XCircle, color: 'var(--color-error)' },
 };
 
-export const Alert = forwardRef<HTMLDivElement, AlertProps>(
+export const Alert = memo(forwardRef<HTMLDivElement, AlertProps>(
   ({ variant = 'info', title, children, className, style, ...props }, ref) => {
     const { icon: Icon, color } = variantConfig[variant];
 
@@ -48,6 +48,6 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       </div>
     );
   }
-);
+));
 
 Alert.displayName = 'Alert';

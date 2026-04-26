@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -18,7 +18,7 @@ interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(
+export const Card = memo(forwardRef<HTMLDivElement, CardProps>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <div
@@ -37,11 +37,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       </div>
     );
   }
-);
+));
 
 Card.displayName = 'Card';
 
-export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
+export const CardHeader = memo(forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <div
@@ -58,11 +58,11 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
       </div>
     );
   }
-);
+));
 
 CardHeader.displayName = 'CardHeader';
 
-export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
+export const CardBody = memo(forwardRef<HTMLDivElement, CardBodyProps>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <div
@@ -78,11 +78,11 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
       </div>
     );
   }
-);
+));
 
 CardBody.displayName = 'CardBody';
 
-export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
+export const CardFooter = memo(forwardRef<HTMLDivElement, CardFooterProps>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <div
@@ -102,6 +102,6 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
       </div>
     );
   }
-);
+));
 
 CardFooter.displayName = 'CardFooter';

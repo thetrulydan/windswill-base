@@ -15,9 +15,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ type = 'text', leading, trailing, label, error, className, style, ...props }, ref) => {
     const isNumber = type === 'number';
     const inputRef = useRef<HTMLInputElement>(null);
-    
-    useImperativeHandle(ref, () => inputRef.current!);
-    
+
+    // Forward ref if provided - inputRef.current is always set since it's attached to the input element
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
+
     const adjustValue = (delta: number) => {
       const input = inputRef.current;
       if (!input) return;
@@ -26,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       input.value = newVal.toString();
       input.dispatchEvent(new Event('input', { bubbles: true }));
     };
-    
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
         {label && (
@@ -75,13 +76,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
           {isNumber && (
             <span style={{ display: 'flex', flexDirection: 'column', marginLeft: '0.25rem', cursor: 'pointer' }}>
-              <ChevronUp 
-                size={12} 
+              <ChevronUp
+                size={12}
                 style={{ color: 'var(--color-text-muted)' }}
                 onClick={() => adjustValue(1)}
               />
-              <ChevronDown 
-                size={12} 
+              <ChevronDown
+                size={12}
                 style={{ color: 'var(--color-text-muted)' }}
                 onClick={() => adjustValue(-1)}
               />

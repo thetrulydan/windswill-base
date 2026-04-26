@@ -14,14 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "composite": true,
-    "baseUrl": ".",
-    "paths": {
-      "@windswill/core": ["../../packages/core/src/index.ts"],
-      "@windswill/ui": ["../../packages/ui/src/index.ts"],
-      "@windswill/ui/components/*": ["../../packages/ui/src/components/*"]
-    }
+    "composite": true
   },
-  "include": ["src"],
-  "references": [{ "path": "../../packages/ui" }]
+  "include": ["src"]
 }

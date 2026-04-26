@@ -1,4 +1,5 @@
 import { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
+import { memo } from 'react';
 
 interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: 'body' | 'muted' | 'caption';
@@ -11,7 +12,7 @@ const textVariants = {
   caption: 'text-xs text-[var(--color-text-muted)] font-normal',
 };
 
-export const Text = forwardRef<HTMLSpanElement, TextProps>(
+export const Text = memo(forwardRef<HTMLSpanElement, TextProps>(
   ({ variant = 'body', className, children, ...props }, ref) => {
     return (
       <span
@@ -23,6 +24,6 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
       </span>
     );
   }
-);
+));
 
 Text.displayName = 'Text';

@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -6,7 +6,7 @@ interface TableProps extends HTMLAttributes<HTMLTableElement> {
   children: ReactNode;
 }
 
-export const Table = forwardRef<HTMLTableElement, TableProps>(
+export const Table = memo(forwardRef<HTMLTableElement, TableProps>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <table
@@ -23,11 +23,11 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
       </table>
     );
   }
-);
+));
 
 Table.displayName = 'Table';
 
-export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
+export const TableHeader = memo(forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <thead
@@ -43,11 +43,11 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HT
       </thead>
     );
   }
-);
+));
 
 TableHeader.displayName = 'TableHeader';
 
-export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
+export const TableBody = memo(forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <tbody
@@ -60,11 +60,11 @@ export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTML
       </tbody>
     );
   }
-);
+));
 
 TableBody.displayName = 'TableBody';
 
-export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
+export const TableRow = memo(forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <tr
@@ -80,11 +80,11 @@ export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTable
       </tr>
     );
   }
-);
+));
 
 TableRow.displayName = 'TableRow';
 
-export const TableHead = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellElement>>(
+export const TableHead = memo(forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellElement>>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <th
@@ -105,11 +105,11 @@ export const TableHead = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTab
       </th>
     );
   }
-);
+));
 
 TableHead.displayName = 'TableHead';
 
-export const TableCell = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellElement>>(
+export const TableCell = memo(forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellElement>>(
   ({ children, className, style, ...props }, ref) => {
     return (
       <td
@@ -127,6 +127,6 @@ export const TableCell = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTab
       </td>
     );
   }
-);
+));
 
 TableCell.displayName = 'TableCell';

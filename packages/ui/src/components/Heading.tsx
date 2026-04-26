@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
+import { forwardRef, type ReactNode, type HTMLAttributes, memo } from 'react';
 
 interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -14,7 +14,7 @@ const headingSizes = {
   6: 'text-sm font-bold leading-[1.2]',
 };
 
-export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
+export const Heading = memo(forwardRef<HTMLHeadingElement, HeadingProps>(
   ({ level = 1, className, children, ...props }, ref) => {
     const Tag = `h${level}` as const;
     return (
@@ -27,6 +27,6 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
       </Tag>
     );
   }
-);
+));
 
 Heading.displayName = 'Heading';
