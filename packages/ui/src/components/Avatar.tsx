@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes, useState } from 'react';
 
 type AvatarSize = 'sm' | 'md' | 'lg';
 
@@ -18,10 +18,12 @@ const sizeMap = {
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   ({ src, alt, fallback, size = 'md', className, style, ...props }, ref) => {
     const dimension = sizeMap[size];
-    const initials = fallback 
-      ? fallback.slice(0, 2).toUpperCase() 
-      : alt 
-        ? alt.slice(0, 2).toUpperCase() 
+    const [imageError, setImageError] = useState(false);
+
+    const initials = fallback
+      ? fallback.slice(0, 2).toUpperCase()
+      : alt
+        ? alt.slice(0, 2).toUpperCase()
         : '?';
 
     return (
@@ -45,10 +47,11 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         }}
         {...props}
       >
-        {src ? (
+        {src && !imageError ? (
           <img
             src={src}
             alt={alt}
+            onError={() => setImageError(true)}
             style={{
               width: '100%',
               height: '100%',

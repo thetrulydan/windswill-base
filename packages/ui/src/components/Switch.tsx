@@ -1,13 +1,15 @@
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
 
-interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'checked'> {
   label?: string;
+  checked?: boolean;
 }
 
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
-  ({ label, className, style, checked, disabled, ...props }, ref) => {
+  ({ label, className, style, checked, disabled, onClick, ...rest }, ref) => {
     return (
       <label
+        className={className}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -20,11 +22,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
           ref={ref}
           type="button"
           disabled={disabled}
-          onClick={(e) => {
-            if (!disabled && props.onClick) {
-              props.onClick(e);
-            }
-          }}
+          onClick={onClick}
           style={{
             width: 44,
             height: 24,
@@ -35,6 +33,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
             cursor: disabled ? 'not-allowed' : 'pointer',
             ...style,
           }}
+          {...rest}
         >
           <span
             style={{

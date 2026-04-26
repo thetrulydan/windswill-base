@@ -1,5 +1,5 @@
-import { useStore } from 'zustand';
-import { create } from 'zustand';
+import { useStore, create } from 'zustand';
+import { useMemo } from 'react';
 import type { AppState, AppMode } from '../types/index.js';
 
 interface AppStore extends AppState {
@@ -33,16 +33,18 @@ export function useIsOnline(): boolean {
   return useAppStore((state) => state.isOnline);
 }
 
+// Memoize return value to prevent new object on every render
 export function useSession() {
-  return useAppStore((state) => ({
-    user: state.user,
-    session: state.session,
-    isLoading: state.isLoading,
-  }));
-}
-
-export function useTheme(): string {
-  return useAppStore((state) => state.mode === 'cloud' ? 'dark' : 'dark');
+  return useAppStore(
+    useMemo(
+      () => (state) => ({
+        user: state.user,
+        session: state.session,
+        isLoading: state.isLoading,
+      }),
+      []
+    )
+  );
 }
 
 export function useThemeSetter() {

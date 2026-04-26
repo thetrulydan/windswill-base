@@ -5,7 +5,7 @@ import { Text } from '@windswill/ui/components/Text';
 import { useToast } from '../hooks/useToast';
 import { Plus, Trash, ArrowRight, Search, Settings } from 'lucide-react';
 
-const variants = ['primary', 'secondary', 'ghost', 'destructive', 'noPadding', 'active'] as const;
+const variants = ['primary', 'secondary', 'ghost', 'destructive', 'underline', 'active'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
 
 export default function ButtonSection() {

@@ -1,4 +1,4 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -36,7 +36,7 @@ const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   },
 };
 
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
+export const Badge = memo(forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant = 'default', className, style, children, ...props }, ref) => {
     return (
       <span
@@ -60,6 +60,6 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       </span>
     );
   }
-);
+));
 
 Badge.displayName = 'Badge';

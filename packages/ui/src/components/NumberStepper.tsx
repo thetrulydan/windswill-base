@@ -1,17 +1,18 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import { IconButton } from './IconButton';
 
-interface NumberStepperProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
+interface NumberStepperProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value: number;
   onChange?: (value: number) => void;
   min?: number;
   max?: number;
   step?: number;
+  disabled?: boolean;
 }
 
 export const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
-  ({ value, onChange, min = 0, max = 100, step = 1, disabled, ...props }, ref) => {
+  ({ value, onChange, min = 0, max = 100, step = 1, disabled, style, ...rest }, ref) => {
     const handleDecrement = () => {
       if (disabled) return;
       const newValue = Math.max(min, value - step);
@@ -31,9 +32,9 @@ export const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
-          ...props.style as React.CSSProperties,
+          ...style,
         }}
-        {...props}
+        {...rest}
       >
         <IconButton
           icon={Minus}

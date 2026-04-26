@@ -22,7 +22,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(ref, () => inputRef.current!);
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     useEffect(() => {
       const handleClickOutside = (e: MouseEvent) => {
@@ -73,7 +73,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
           onClick={() => setIsOpen(!isOpen)}
           style={{ cursor: 'pointer' }}
         />
-        
+
         {isOpen && (
           <div
             style={{
@@ -104,16 +104,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                     alignItems: 'center',
                     gap: '0.5rem',
                   }}
-                  onMouseEnter={(e) => {
-                    if (!isSelected) {
-                      e.currentTarget.style.background = 'var(--color-surface-hover)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isSelected) {
-                      e.currentTarget.style.background = 'transparent';
-                    }
-                  }}
+                  className="select-option"
                 >
                   {multiple && (
                     <Checkbox

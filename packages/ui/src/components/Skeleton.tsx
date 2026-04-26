@@ -1,11 +1,11 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type HTMLAttributes, memo } from 'react';
 
 interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   width?: string | number;
   height?: string | number;
 }
 
-export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
+export const Skeleton = memo(forwardRef<HTMLDivElement, SkeletonProps>(
   ({ width = '100%', height = '1rem', className, style, ...props }, ref) => {
     return (
       <div
@@ -22,6 +22,6 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       />
     );
   }
-);
+));
 
 Skeleton.displayName = 'Skeleton';

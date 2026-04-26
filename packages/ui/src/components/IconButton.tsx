@@ -25,10 +25,10 @@ const iconSizeMap = {
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon: Icon, variant = 'ghost', size = 'md', label, className, style, disabled, ...props }, ref) => {
+  ({ icon: Icon, variant = 'ghost', size = 'md', label, className, style, disabled, onMouseEnter, onMouseLeave, ...rest }, ref) => {
     const dimension = sizeMap[size];
-    
-    const getVariantStyles = (): React.CSSProperties => {
+
+    const getBaseStyles = (): React.CSSProperties => {
       const base: React.CSSProperties = {
         display: 'flex',
         alignItems: 'center',
@@ -37,15 +37,47 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         border: 'none',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.35 : 1,
+        color: 'var(--color-text-muted)',
       };
 
       if (variant === 'primary') {
         base.border = '1px solid var(--color-text-muted)';
       } else if (variant === 'secondary') {
         base.borderBottom = '1px solid var(--color-text-muted)';
+      } else if (variant === 'destructive') {
+        base.color = 'var(--color-error)';
       }
 
       return base;
+    };
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled) return;
+      if (variant === 'primary' || variant === 'secondary') {
+        e.currentTarget.style.color = 'var(--color-text)';
+        e.currentTarget.style.borderColor = 'var(--color-gray-700)';
+      } else if (variant === 'ghost') {
+        e.currentTarget.style.background = 'var(--color-surface-hover)';
+        e.currentTarget.style.color = 'var(--color-text)';
+      } else if (variant === 'destructive') {
+        e.currentTarget.style.background = 'var(--color-error)';
+        e.currentTarget.style.color = 'var(--color-background)';
+      }
+      onMouseEnter?.(e);
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled) return;
+      e.currentTarget.style.color = 'var(--color-text-muted)';
+      if (variant === 'primary' || variant === 'secondary') {
+        e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+      } else if (variant === 'ghost') {
+        e.currentTarget.style.background = 'transparent';
+      } else if (variant === 'destructive') {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.color = 'var(--color-error)';
+      }
+      onMouseLeave?.(e);
     };
 
     return (
@@ -56,41 +88,14 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           width: dimension,
           height: dimension,
           background: 'transparent',
-          color: 'var(--color-text-muted)',
-          ...getVariantStyles(),
+          ...getBaseStyles(),
           ...style,
         }}
         disabled={disabled}
-        onMouseEnter={(e) => {
-          if (disabled) return;
-          e.currentTarget.style.color = 'var(--color-text)';
-          if (variant === 'primary') {
-            e.currentTarget.style.borderColor = 'var(--color-gray-700)';
-          } else if (variant === 'secondary') {
-            e.currentTarget.style.borderColor = 'var(--color-gray-700)';
-          } else if (variant === 'ghost') {
-            e.currentTarget.style.background = 'var(--color-surface-hover)';
-          } else if (variant === 'destructive') {
-            e.currentTarget.style.background = 'var(--color-error)';
-            e.currentTarget.style.color = 'var(--color-background)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (disabled) return;
-          e.currentTarget.style.color = 'var(--color-text-muted)';
-          if (variant === 'primary') {
-            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-          } else if (variant === 'secondary') {
-            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-          } else if (variant === 'ghost') {
-            e.currentTarget.style.background = 'transparent';
-          } else if (variant === 'destructive') {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = 'var(--color-error)';
-          }
-        }}
-        {...props}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         title={label}
+        {...rest}
       >
         <Icon size={iconSizeMap[size]} />
       </button>

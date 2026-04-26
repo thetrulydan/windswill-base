@@ -2,19 +2,14 @@ import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import { Button } from '@windswill/ui/components/Button';
-import { useToast } from '../hooks/useToast';
+import { ToastProvider, useToast } from '@windswill/ui/components/Toast';
 
-export default function ToastSection() {
+function ToastDemoContent() {
   const toast = useToast();
   const [persistent, setPersistent] = useState(false);
 
   return (
-    <div>
-      <Heading level={1}>Toast</Heading>
-      <Text variant="muted" style={{ marginBottom: 32 }}>
-        Brief notification messages that appear and auto-dismiss.
-      </Text>
-
+    <>
       <section style={{ marginBottom: 32 }}>
         <Heading level={3} style={{ marginBottom: 16 }}>Types</Heading>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -38,7 +33,10 @@ export default function ToastSection() {
         <Button
           variant="secondary"
           onClick={() =>
-            toast.info('Message with action')
+            toast.info('Message with action', {
+              label: 'Undo',
+              onClick: () => toast.success('Action triggered!'),
+            })
           }
         >
           Show with Action
@@ -76,6 +74,21 @@ export default function ToastSection() {
           Fire Multiple
         </Button>
       </section>
+    </>
+  );
+}
+
+export default function ToastSection() {
+  return (
+    <div>
+      <Heading level={1}>Toast</Heading>
+      <Text variant="muted" style={{ marginBottom: 32 }}>
+        Brief notification messages that appear and auto-dismiss.
+      </Text>
+
+      <ToastProvider>
+        <ToastDemoContent />
+      </ToastProvider>
     </div>
   );
 }

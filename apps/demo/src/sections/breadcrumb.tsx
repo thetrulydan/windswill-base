@@ -1,6 +1,6 @@
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
-import * as LucideIcons from 'lucide-react';
+import { Breadcrumb } from '@windswill/ui/components/Breadcrumb';
 
 export default function BreadcrumbSection() {
   return (
@@ -11,15 +11,14 @@ export default function BreadcrumbSection() {
       </Text>
 
       <section>
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14 }}>
-          <a href="#" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</a>
-          <LucideIcons.ChevronRight size={14} style={{ color: 'var(--color-text-muted)' }} />
-          <a href="#" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Products</a>
-          <LucideIcons.ChevronRight size={14} style={{ color: 'var(--color-text-muted)' }} />
-          <a href="#" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Electronics</a>
-          <LucideIcons.ChevronRight size={14} style={{ color: 'var(--color-text-muted)' }} />
-          <span style={{ color: 'var(--color-text)' }}>Laptops</span>
-        </nav>
+        <Breadcrumb
+          items={[
+            { label: 'Home', href: '#' },
+            { label: 'Products', href: '#' },
+            { label: 'Electronics', href: '#' },
+            { label: 'Laptops' },
+          ]}
+        />
       </section>
     </div>
   );
