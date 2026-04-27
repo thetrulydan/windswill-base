@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
+import { Button } from '@windswill/ui/components/Button';
 import { Text } from '@windswill/ui/components/Text';
 
 export default function AppShellSection() {
@@ -16,20 +17,9 @@ export default function AppShellSection() {
         <Heading level={3} style={{ marginBottom: 16 }}>Column Presets</Heading>
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           {[2, 3, 4].map((n) => (
-            <button
-              key={n}
-              onClick={() => setColumns(n)}
-              style={{
-                padding: '8px 16px',
-                borderRadius: 0,
-                border: columns === n ? 'none' : '1px solid var(--color-border)',
-                background: columns === n ? 'var(--color-text)' : 'transparent',
-                color: columns === n ? 'var(--color-background)' : 'var(--color-text)',
-                cursor: 'pointer',
-              }}
-            >
+            <Button key={n} onClick={() => setColumns(n)} style={{ padding: '8px 16px', borderRadius: 0, minWidth: 0 }}>
               {n} Column{n > 1 ? 's' : ''}
-            </button>
+            </Button>
           ))}
         </div>
       </section>

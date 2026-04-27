@@ -3,6 +3,7 @@ import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import { useToast } from '../hooks/useToast';
 import * as LucideIcons from 'lucide-react';
+import { Button } from '@windswill/ui/components/Button';
 
 export default function FabClusterSection() {
   const toast = useToast();
@@ -21,32 +22,12 @@ export default function FabClusterSection() {
           <div style={{ position: 'absolute', bottom: 20, right: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {isOpen && (
               <>
-                <button
-                  onClick={() => toast.success('Delete clicked')}
-                  style={{ width: 48, height: 48, borderRadius: '50%', border: 'none', background: '#ef4444', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}
-                >
-                  <LucideIcons.Trash2 size={20} />
-                </button>
-                <button
-                  onClick={() => toast.success('Edit clicked')}
-                  style={{ width: 48, height: 48, borderRadius: '50%', border: 'none', background: '#3b82f6', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}
-                >
-                  <LucideIcons.Edit size={20} />
-                </button>
-                <button
-                  onClick={() => toast.success('Share clicked')}
-                  style={{ width: 48, height: 48, borderRadius: '50%', border: 'none', background: '#22c55e', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}
-                >
-                  <LucideIcons.Share2 size={20} />
-                </button>
+                <Button onClick={() => toast.success('Delete clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#ef4444', color: 'white', border: 'none' }} icon={LucideIcons.Trash2} aria-label="Delete" />
+                <Button onClick={() => toast.success('Edit clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#3b82f6', color: 'white', border: 'none' }} icon={LucideIcons.Edit} aria-label="Edit" />
+                <Button onClick={() => toast.success('Share clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#22c55e', color: 'white', border: 'none' }} icon={LucideIcons.Share2} aria-label="Share" />
               </>
             )}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              style={{ width: 56, height: 56, borderRadius: '50%', border: 'none', background: 'var(--color-text)', color: 'var(--color-background)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}
-            >
-              {isOpen ? <LucideIcons.X size={24} /> : <LucideIcons.Plus size={24} />}
-            </button>
+            <Button onClick={() => setIsOpen(!isOpen)} variant="ghost" style={{ width: 56, height: 56, borderRadius: '50%', padding: 0, background: 'var(--color-text)', color: 'var(--color-background)', border: 'none' }} icon={isOpen ? LucideIcons.X : LucideIcons.Plus} aria-label="Toggle" />
           </div>
         </div>
       </section>
