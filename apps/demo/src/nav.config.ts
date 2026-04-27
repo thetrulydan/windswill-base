@@ -50,7 +50,6 @@ export const navConfig: NavGroup[] = [
     title: 'Overlays',
     items: [
       { label: 'Modal', href: '/demo/modal' },
-      { label: 'ConfirmDialog', href: '/demo/confirm/dialog' },
       { label: 'Drawer', href: '/demo/drawer' },
       { label: 'Popover', href: '/demo/popover' },
       { label: 'Tooltip', href: '/demo/tooltip' },

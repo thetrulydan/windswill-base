@@ -76,6 +76,22 @@ export default function ButtonSection() {
         </div>
       </section>
 
+      <section style={{ marginBottom: 32 }}>
+        <Heading level={3} style={{ marginBottom: 16 }}>With Count</Heading>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="ghost" count={3}>Dashboard</Button>
+          <Button variant="ghost" count={12}>Projects</Button>
+          <Button variant="ghost" count={48}>Tasks</Button>
+          <Button variant="ghost" count={5}>Team</Button>
+        </div>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginTop: 12 }}>
+          <Button variant="active" count={3}>Dashboard</Button>
+          <Button variant="active" count={12}>Projects</Button>
+          <Button variant="active" count={48}>Tasks</Button>
+          <Button variant="active" count={5}>Team</Button>
+        </div>
+      </section>
+
       <section>
         <Heading level={3} style={{ marginBottom: 16 }}>Usage</Heading>
         <pre style={{

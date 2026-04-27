@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { Button } from './Button';
 
 interface BreadcrumbItem {
   label: string;
@@ -18,15 +19,27 @@ export function Breadcrumb({ items, separator }: BreadcrumbProps) {
     <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14 }}>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
+        if (isLast) {
+          return (
+            <span key={index} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {defaultSeparator}
+              <Button variant="active" size="md">
+                {item.label}
+              </Button>
+            </span>
+          );
+        }
         return (
           <span key={index} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {index > 0 && defaultSeparator}
-            {item.href && !isLast ? (
-              <a href={item.href} style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>
-                {item.label}
+            {item.href ? (
+              <a href={item.href} style={{ textDecoration: 'none' }}>
+                <Button variant="underline" size="md">
+                  {item.label}
+                </Button>
               </a>
             ) : (
-              <span style={{ color: isLast ? 'var(--color-text)' : 'var(--color-text-muted)' }}>
+              <span style={{ color: 'var(--color-text-muted)' }}>
                 {item.label}
               </span>
             )}

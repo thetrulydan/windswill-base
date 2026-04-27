@@ -14,7 +14,7 @@ export default function PopoverSection() {
         Anchored overlay with directional pointer arrow.
       </Text>
 
-      <section style={{ marginBottom: 32 }}>
+      <section>
         <Heading level={3} style={{ marginBottom: 16 }}>Directions</Heading>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           {directions.map((dir) => (
@@ -28,6 +28,30 @@ export default function PopoverSection() {
               <Text variant="muted">This is the popover content with the arrow pointing to the target.</Text>
             </AnchorPopover>
           ))}
+        </div>
+      </section>
+
+      <section>
+        <Heading level={3} style={{ marginBottom: 16 }}>Sizes</Heading>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <AnchorPopover
+            anchor={<Button variant="secondary">Small</Button>}
+            size="sm"
+          >
+            <Text variant="muted">This is a small popover.</Text>
+          </AnchorPopover>
+          <AnchorPopover
+            anchor={<Button variant="secondary">Medium</Button>}
+            size="md"
+          >
+            <Text variant="muted">This is a medium popover - the default size.</Text>
+          </AnchorPopover>
+          <AnchorPopover
+            anchor={<Button variant="secondary">Large</Button>}
+            size="lg"
+          >
+            <Text variant="muted">This is a large popover with more content space available for longer text.</Text>
+          </AnchorPopover>
         </div>
       </section>
 

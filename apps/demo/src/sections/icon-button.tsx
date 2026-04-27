@@ -54,12 +54,32 @@ export default function IconButtonSection() {
         </div>
       </section>
 
-      <section>
+      <section style={{ marginBottom: 32 }}>
         <Heading level={3} style={{ marginBottom: 16 }}>Sizes</Heading>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <IconButton icon={Edit} size="sm" onClick={() => handleClick('sm')} label="Small" />
           <IconButton icon={Edit} size="md" onClick={() => handleClick('md')} label="Medium" />
           <IconButton icon={Edit} size="lg" onClick={() => handleClick('lg')} label="Large" />
+        </div>
+      </section>
+
+      <section style={{ marginBottom: 32 }}>
+        <Heading level={3} style={{ marginBottom: 16 }}>FAB Variants</Heading>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <IconButton icon={Edit} variant="fab-primary" onClick={() => handleClick('fab-primary')} label="FAB Primary" />
+          <IconButton icon={Plus} variant="fab" onClick={() => handleClick('fab')} label="FAB" />
+          <IconButton icon={Plus} variant="fab-secondary" onClick={() => handleClick('fab-secondary')} label="FAB Secondary" />
+          <IconButton icon={Plus} variant="fab-ghost" onClick={() => handleClick('fab-ghost')} label="FAB Ghost" />
+          <IconButton icon={Trash2} variant="fab-destructive" onClick={() => handleClick('fab-destructive')} label="FAB Destructive" />
+        </div>
+      </section>
+
+      <section>
+        <Heading level={3} style={{ marginBottom: 16 }}>FAB Sizes</Heading>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <IconButton icon={Plus} size="fab-sm" variant="fab" onClick={() => handleClick('fab-sm')} label="FAB Small" />
+          <IconButton icon={Plus} size="fab-md" variant="fab" onClick={() => handleClick('fab-md')} label="FAB Medium" />
+          <IconButton icon={Plus} size="fab-lg" variant="fab" onClick={() => handleClick('fab-lg')} label="FAB Large" />
         </div>
       </section>
     </div>

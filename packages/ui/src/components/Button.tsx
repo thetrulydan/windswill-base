@@ -35,6 +35,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   loading?: boolean;
   icon?: LucideIcon;
+  count?: number;
 }
 
 const sizeStyles = {
@@ -82,7 +83,7 @@ const Spinner = ({ size = 'md' }: { size?: ButtonSize }) => {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', className, children, loading, icon: Icon, disabled, ...props }, ref) => {
+  ({ variant = 'primary', size = 'md', className, children, loading, icon: Icon, disabled, count, ...props }, ref) => {
     const isDisabled = disabled || loading;
     
     const getBaseStyles = (): React.CSSProperties => {
@@ -138,11 +139,29 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       if (loading) {
         return <Spinner size={size} />;
       }
-      if (Icon) {
+      if (Icon || typeof count === 'number') {
+        const showCount = typeof count === 'number';
+        const isCountActive = variant === 'active';
+        const countBg = isCountActive ? 'var(--color-text)' : 'var(--color-surface-raised)';
+        const countColor = isCountActive ? 'var(--color-background)' : 'var(--color-text-muted)';
+        
         return (
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Icon size={iconSizes[size]} />
-            {children}
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '0.5rem' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {Icon && <Icon size={iconSizes[size]} />}
+              {children}
+            </span>
+            {showCount && (
+              <span style={{
+                background: countBg,
+                color: countColor,
+                padding: '2px 8px',
+                fontSize: 11,
+                fontWeight: 600,
+              }}>
+                {count}
+              </span>
+            )}
           </span>
         );
       }
