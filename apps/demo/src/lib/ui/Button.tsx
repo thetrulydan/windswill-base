@@ -71,9 +71,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ...sizeStyles[size],
       };
 
-      if (variant === 'primary') {
-        styles.border = '1px solid var(--color-text-muted)';
-      } else if (variant === 'secondary') {
+    if (variant === 'primary') {
+      styles.border = '1px solid var(--color-text-muted)';
+    } else if (variant === 'secondary') {
         styles.borderTop = '0px';
         styles.borderRight = '0px';
         styles.borderLeft = '0px';
@@ -131,15 +131,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         onMouseEnter={(e) => {
           if (isDisabled) return;
-          e.currentTarget.style.cursor = 'pointer';
-          if (variant === 'primary' || variant === 'secondary') {
+          if (variant === 'primary') {
+            e.currentTarget.style.background = '#374151';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.borderColor = '#374151';
+          } else if (variant === 'secondary') {
             e.currentTarget.style.background = 'var(--color-gray-700)';
             e.currentTarget.style.color = 'var(--color-text)';
-            if (variant === 'primary') {
-              e.currentTarget.style.borderColor = 'var(--color-gray-700)';
-            } else {
-              e.currentTarget.style.borderBottomColor = 'var(--color-gray-700)';
-            }
+            e.currentTarget.style.borderBottomColor = 'var(--color-gray-700)';
           } else if (variant === 'ghost') {
             e.currentTarget.style.background = 'var(--color-surface-hover)';
             e.currentTarget.style.color = 'var(--color-text)';
@@ -147,18 +146,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             e.currentTarget.style.background = 'var(--color-error)';
             e.currentTarget.style.color = 'var(--color-background)';
           }
+          onMouseEnter?.(e);
         }}
         onMouseLeave={(e) => {
           if (isDisabled) return;
           e.currentTarget.style.cursor = 'auto';
-          if (variant === 'primary' || variant === 'secondary') {
+          if (variant === 'primary') {
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.color = 'var(--color-text-muted)';
-            if (variant === 'primary') {
-              e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-            } else {
-              e.currentTarget.style.borderBottomColor = 'var(--color-text-muted)';
-            }
+            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+          } else if (variant === 'secondary') {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'var(--color-text-muted)';
+            e.currentTarget.style.borderBottomColor = 'var(--color-text-muted)';
           } else if (variant === 'ghost') {
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.color = 'var(--color-text-muted)';
@@ -166,6 +166,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.color = 'var(--color-error)';
           }
+          onMouseLeave?.(e);
         }}
         {...props}
       >

@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { LucideIcon } from 'lucide-react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'underline' | 'active';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'noPadding' | 'active';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,12 +18,6 @@ const sizeStyles = {
   sm: { height: '2rem', padding: '0.25rem 0.625rem', fontSize: '0.6875rem' },
   md: { height: '2.5rem', padding: '0.5rem 1rem', fontSize: '0.8125rem' },
   lg: { height: '3rem', padding: '0.75rem 1.25rem', fontSize: '0.9375rem' },
-};
-
-const underlineSizeStyles = {
-  sm: { padding: '0.125rem 0.25rem', fontSize: '0.6875rem' },
-  md: { padding: '0.25rem 0.5rem', fontSize: '0.8125rem' },
-  lg: { padding: '0.375rem 0.75rem', fontSize: '0.9375rem' },
 };
 
 const iconSizes = {
@@ -59,9 +53,9 @@ const Spinner = ({ size = 'md' }: { size?: ButtonSize }) => {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', className, children, loading, icon: Icon, disabled, onMouseEnter, onMouseLeave, ...rest }, ref) => {
+  ({ variant = 'primary', size = 'md', className, children, loading, icon: Icon, disabled, ...props }, ref) => {
     const isDisabled = disabled || loading;
-
+    
     const getBaseStyles = (): React.CSSProperties => {
       const styles: React.CSSProperties = {
         appearance: 'none',
@@ -70,10 +64,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         borderRadius: 0,
         color: 'var(--color-text-muted)',
         transition: 'background 150ms ease, color 150ms ease, border-color 150ms ease',
+        fontSize: 'var(--text-sm)',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
-        cursor: isDisabled ? 'not-allowed' : 'pointer',
         ...sizeStyles[size],
       };
 
@@ -84,18 +78,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         styles.borderRight = '0px';
         styles.borderLeft = '0px';
         styles.borderBottom = '1px solid var(--color-text-muted)';
-      } else if (variant === 'destructive' || variant === 'underline' || variant === 'active' || variant === 'ghost') {
+      } else if (variant === 'destructive' || variant === 'noPadding' || variant === 'active' || variant === 'ghost') {
         styles.border = 'none';
       }
 
       if (variant === 'destructive') {
         styles.color = 'var(--color-error)';
       }
-
-      if (variant === 'underline') {
-        styles.borderBottom = '1px solid transparent';
-        styles.height = 'auto';
-        Object.assign(styles, underlineSizeStyles[size]);
+      
+      if (variant === 'noPadding') {
+        styles.padding = '0';
       }
 
       if (variant === 'active') {
@@ -105,6 +97,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
       if (isDisabled) {
         styles.opacity = '0.35';
+        styles.cursor = 'not-allowed';
       }
 
       return styles;
@@ -125,61 +118,56 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return children;
     };
 
-    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (isDisabled) return;
-      if (variant === 'primary' || variant === 'secondary') {
-        e.currentTarget.style.background = 'var(--color-gray-700)';
-        e.currentTarget.style.color = 'var(--color-text)';
-        if (variant === 'primary') {
-          e.currentTarget.style.borderColor = 'var(--color-gray-700)';
-        } else {
-          e.currentTarget.style.borderBottomColor = 'var(--color-gray-700)';
-        }
-      } else if (variant === 'ghost') {
-        e.currentTarget.style.background = 'var(--color-surface-hover)';
-        e.currentTarget.style.color = 'var(--color-text)';
-      } else if (variant === 'underline') {
-        e.currentTarget.style.borderBottomColor = 'var(--color-text)';
-        e.currentTarget.style.color = 'var(--color-text)';
-      } else if (variant === 'destructive') {
-        e.currentTarget.style.background = 'var(--color-error)';
-        e.currentTarget.style.color = 'var(--color-background)';
-      }
-      onMouseEnter?.(e);
-    };
-
-    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (isDisabled) return;
-      if (variant === 'primary' || variant === 'secondary') {
-        e.currentTarget.style.background = 'transparent';
-        e.currentTarget.style.color = 'var(--color-text-muted)';
-        if (variant === 'primary') {
-          e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-        } else {
-          e.currentTarget.style.borderBottomColor = 'var(--color-text-muted)';
-        }
-      } else if (variant === 'ghost') {
-        e.currentTarget.style.background = 'transparent';
-        e.currentTarget.style.color = 'var(--color-text-muted)';
-      } else if (variant === 'underline') {
-        e.currentTarget.style.borderBottomColor = 'transparent';
-        e.currentTarget.style.color = 'var(--color-text-muted)';
-      } else if (variant === 'destructive') {
-        e.currentTarget.style.background = 'transparent';
-        e.currentTarget.style.color = 'var(--color-error)';
-      }
-      onMouseLeave?.(e);
-    };
-
     return (
       <button
         ref={ref}
-        className={twMerge(clsx('inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none', className))}
+        className={twMerge(
+          clsx(
+            'inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
+            className
+          )
+        )}
         style={getBaseStyles()}
         disabled={isDisabled}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        {...rest}
+        onMouseEnter={(e) => {
+          if (isDisabled) return;
+          e.currentTarget.style.cursor = 'pointer';
+          if (variant === 'primary' || variant === 'secondary') {
+            e.currentTarget.style.background = 'var(--color-gray-700)';
+            e.currentTarget.style.color = 'var(--color-text)';
+            if (variant === 'primary') {
+              e.currentTarget.style.borderColor = 'var(--color-gray-700)';
+            } else {
+              e.currentTarget.style.borderBottomColor = 'var(--color-gray-700)';
+            }
+          } else if (variant === 'ghost') {
+            e.currentTarget.style.background = 'var(--color-surface-hover)';
+            e.currentTarget.style.color = 'var(--color-text)';
+          } else if (variant === 'destructive') {
+            e.currentTarget.style.background = 'var(--color-error)';
+            e.currentTarget.style.color = 'var(--color-background)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (isDisabled) return;
+          e.currentTarget.style.cursor = 'auto';
+          if (variant === 'primary' || variant === 'secondary') {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'var(--color-text-muted)';
+            if (variant === 'primary') {
+              e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+            } else {
+              e.currentTarget.style.borderBottomColor = 'var(--color-text-muted)';
+            }
+          } else if (variant === 'ghost') {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'var(--color-text-muted)';
+          } else if (variant === 'destructive') {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'var(--color-error)';
+          }
+        }}
+        {...props}
       >
         {renderContent()}
       </button>

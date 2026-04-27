@@ -17,7 +17,7 @@ export default function AppShellSection() {
         <Heading level={3} style={{ marginBottom: 16 }}>Column Presets</Heading>
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           {[2, 3, 4].map((n) => (
-            <Button key={n} onClick={() => setColumns(n)} style={{ padding: '8px 16px', borderRadius: 0, minWidth: 0 }}>
+            <Button key={n} onClick={() => setColumns(n)} variant="primary">
               {n} Column{n > 1 ? 's' : ''}
             </Button>
           ))}
