@@ -69,6 +69,7 @@ export default function CardSection() {
           </CardBody>
         </Card>
       </section>
-    </div>
+
+      </div>
   );
 }

@@ -27,6 +27,7 @@ export { SectionNav } from './SectionNav';
 export { Pagination } from './Pagination';
 export { Sidebar } from './Sidebar';
 export { FilterTabs } from './FilterTabs';
+export { Topbar } from './Topbar';
 export { Modal } from './Modal';
 export { Drawer } from './Drawer';
 export { Popover, AnchorPopover } from './Popover';

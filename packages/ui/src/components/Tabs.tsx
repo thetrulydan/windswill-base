@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import { clsx } from 'clsx';
 
 interface TabsContextType {
   activeTab: string;
@@ -31,9 +32,8 @@ export function Tabs({ defaultValue, children, onChange }: TabsProps) {
 export function TabsList({ children, className, style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
     <div
-      className={className}
+      className={clsx('flex flex-row', className)}
       style={{
-        display: 'flex',
         borderBottom: '1px solid var(--color-border)',
         ...style,
       }}
@@ -58,18 +58,13 @@ export function TabsTrigger({ value, children, className, style }: TabsTriggerPr
 
   return (
     <button
-      className={className}
+      className={clsx('text-sm font-bold uppercase tracking-wide', isActive ? 'text-text' : 'text-text-muted', className)}
       onClick={() => context.setActiveTab(value)}
       style={{
         padding: '0.75rem 1rem',
-        fontSize: '0.8125rem',
-        fontWeight: 700,
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
         background: 'transparent',
         border: 'none',
         borderBottom: isActive ? '2px solid var(--color-text)' : '2px solid transparent',
-        color: isActive ? 'var(--color-text)' : 'var(--color-text-muted)',
         cursor: 'pointer',
         transition: 'border-color 0.2s, color 0.2s',
         ...style,

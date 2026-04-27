@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
-import * as LucideIcons from 'lucide-react';
+import { Topbar } from '@windswill/ui/components/Topbar';
 import { Button } from '@windswill/ui/components/Button';
+import { Checkbox } from '@windswill/ui/components/Checkbox';
+import * as LucideIcons from 'lucide-react';
 
 export default function TopbarSection() {
   const [showLeft, setShowLeft] = useState(true);
@@ -20,46 +22,33 @@ export default function TopbarSection() {
         <Heading level={3} style={{ marginBottom: 16 }}>Slots</Heading>
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <input type="checkbox" checked={showLeft} onChange={(e) => setShowLeft(e.target.checked)} />
+            <Checkbox checked={showLeft} onCheckedChange={(checked) => setShowLeft(!!checked)} />
             <span>Left</span>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <input type="checkbox" checked={showCenter} onChange={(e) => setShowCenter(e.target.checked)} />
+            <Checkbox checked={showCenter} onCheckedChange={(checked) => setShowCenter(!!checked)} />
             <span>Center</span>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <input type="checkbox" checked={showRight} onChange={(e) => setShowRight(e.target.checked)} />
+            <Checkbox checked={showRight} onCheckedChange={(checked) => setShowRight(!!checked)} />
             <span>Right</span>
           </label>
         </div>
       </section>
 
       <section>
-        <div
-          style={{
-            height: 60,
-            borderBottom: '1px solid var(--color-border)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 16px',
-            background: 'var(--color-surface)',
-            borderRadius: 0,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {showLeft && (
+        <Topbar
+          left={
+            showLeft && (
               <>
                 <LucideIcons.Menu size={20} />
                 <Text style={{ fontWeight: 600 }}>My App</Text>
               </>
-            )}
-          </div>
-          <div>
-            {showCenter && <Text>Center Title</Text>}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {showRight && (
+            )
+          }
+          center={showCenter ? <Text>Center Title</Text> : undefined}
+          right={
+            showRight && (
               <>
                 <Button size="sm" aria-label="Search" onClick={() => {}} icon={LucideIcons.Search} />
                 <Button size="sm" aria-label="Settings" onClick={() => {}} icon={LucideIcons.Settings} />
@@ -67,9 +56,9 @@ export default function TopbarSection() {
                   JD
                 </div>
               </>
-            )}
-          </div>
-        </div>
+            )
+          }
+        />
       </section>
     </div>
   );
