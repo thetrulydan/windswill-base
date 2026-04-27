@@ -1,5 +1,14 @@
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
 
+/**
+ * Switch - Toggle switch for boolean settings
+ *
+ * Usage:
+ * - label: optional label text
+ * - checked: controlled state
+ * - disabled: disable interaction
+ */
+
 interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'checked'> {
   label?: string;
   checked?: boolean;

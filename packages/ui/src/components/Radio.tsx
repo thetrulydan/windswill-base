@@ -1,5 +1,13 @@
 import { forwardRef, type InputHTMLAttributes } from 'react';
 
+/**
+ * Radio - Single selection in a group
+ *
+ * Usage:
+ * - label: optional label text
+ * - Use same name prop for grouping
+ */
+
 interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
 }

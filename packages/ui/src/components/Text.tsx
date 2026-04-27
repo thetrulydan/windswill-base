@@ -2,6 +2,17 @@ import { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
 import { memo } from 'react';
 import { clsx } from 'clsx';
 
+/**
+ * Text - Typography component with semantic colors
+ *
+ * Usage:
+ * - variant="body" (default): main text color
+ * - variant="muted": secondary/muted text
+ * - variant="caption": small/caption text
+ *
+ * Variants use semantic color utilities (text-text, text-text-muted)
+ */
+
 interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: 'body' | 'muted' | 'caption';
   children: ReactNode;

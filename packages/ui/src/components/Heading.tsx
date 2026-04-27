@@ -1,4 +1,13 @@
 import { forwardRef, type ReactNode, type HTMLAttributes, memo } from 'react';
+import { clsx } from 'clsx';
+
+/**
+ * Heading - Typography heading component
+ *
+ * Usage:
+ * - level: 1-6 (h1 through h6)
+ * - Uses text-text semantic color
+ */
 
 interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -20,7 +29,7 @@ export const Heading = memo(forwardRef<HTMLHeadingElement, HeadingProps>(
     return (
       <Tag
         ref={ref}
-        className={`${headingSizes[level]} ${className || ''}`}
+        className={clsx(headingSizes[level], className)}
         {...props}
       >
         {children}

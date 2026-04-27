@@ -1,6 +1,14 @@
 import { forwardRef, type InputHTMLAttributes } from 'react';
 import { Check } from 'lucide-react';
 
+/**
+ * Checkbox - Boolean toggle input
+ *
+ * Usage:
+ * - label: optional label text
+ * - Can forward className/style
+ */
+
 interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
 }

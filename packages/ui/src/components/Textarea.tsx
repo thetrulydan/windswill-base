@@ -2,6 +2,15 @@ import { forwardRef, type TextareaHTMLAttributes } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Textarea - Multi-line text input
+ *
+ * Usage:
+ * - label: optional label above
+ * - error: validation message
+ * - Can forward className/style
+ */
+
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string | boolean;
@@ -10,42 +19,27 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, className, style, ...props }, ref) => {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+      <div className={twMerge(clsx('flex flex-col gap-1', className))} style={style}>
         {label && (
-          <span style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', minWidth: '120px' }}>
+          <span className="text-sm text-text-muted min-w-[7.5rem]">
             {label}
           </span>
         )}
         <textarea
           ref={ref}
-          className={twMerge(clsx('focus-visible:outline-none', className))}
-          style={{
-            width: '100%',
-            minHeight: 100,
-            padding: '0.5rem',
-            fontSize: '1rem',
-            color: 'var(--color-text)',
-            fontFamily: 'inherit',
-            background: 'transparent',
-            borderRadius: 0,
-            border: `1px solid ${error ? 'var(--color-error)' : 'var(--color-border)'}`,
-            outline: 'none',
-            resize: 'vertical',
-            appearance: 'none',
-            WebkitAppearance: 'none',
-            transition: 'border-color 150ms ease',
-            ...style,
-          }}
+          className={twMerge(clsx('w-full min-h-[100px] p-2 text-base text-text bg-transparent border rounded-none appearance-none outline-none resize-y transition-colors', error ? 'border-error' : 'border-border'), className)}
           onFocus={(e) => {
-            e.currentTarget.style.borderColor = 'var(--color-text)';
+            e.currentTarget.classList.remove('border-error', 'border-border');
+            e.currentTarget.classList.add('border-text');
           }}
           onBlur={(e) => {
-            e.currentTarget.style.borderColor = error ? 'var(--color-error)' : 'var(--color-border)';
+            e.currentTarget.classList.remove('border-text');
+            e.currentTarget.classList.add(error ? 'border-error' : 'border-border');
           }}
           {...props}
         />
         {error && typeof error === 'string' && (
-          <span style={{ fontSize: '0.6875rem', color: 'var(--color-error)' }}>{error}</span>
+          <span className="text-xs text-error">{error}</span>
         )}
       </div>
     );

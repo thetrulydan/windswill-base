@@ -2,6 +2,13 @@ import { forwardRef, type HTMLAttributes, type ReactNode, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Table - Data table container
+ *
+ * Subcomponents:
+ * - Table, TableHeader, TableBody, TableRow, TableHead, TableCell
+ */
+
 interface TableProps extends HTMLAttributes<HTMLTableElement> {
   children: ReactNode;
 }

@@ -2,6 +2,18 @@ import { forwardRef, useState, useRef, useImperativeHandle, useEffect } from 're
 import { ChevronDown, Check } from 'lucide-react';
 import { Input } from './Input';
 import { Checkbox } from './Checkbox';
+import { clsx } from 'clsx';
+
+/**
+ * Select - Dropdown select with optional multi-select
+ *
+ * Usage:
+ * - options: array of { value, label }
+ * - placeholder: shown when no value
+ * - value: controlled selection (string or string[] for multi)
+ * - onChange: callback with new value
+ * - Uses Input internally for the trigger
+ */
 
 interface SelectOption {
   value: string;
@@ -55,7 +67,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
     const displayValue = selectedOptions.map(o => o.label).join(', ');
 
     return (
-      <div ref={containerRef} style={{ position: 'relative' }}>
+      <div ref={containerRef} className="relative">
         <Input
           ref={inputRef}
           readOnly
@@ -64,10 +76,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
           trailing={
             <ChevronDown
               size={16}
-              style={{
-                transform: isOpen ? 'rotate(180deg)' : 'none',
-                transition: 'transform 150ms ease',
-              }}
+              className={clsx('transition-transform', isOpen && 'rotate-180')}
             />
           }
           onClick={() => setIsOpen(!isOpen)}
@@ -76,18 +85,8 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
 
         {isOpen && (
           <div
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              right: 0,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-surface)',
-              zIndex: 100,
-              maxHeight: '200px',
-              overflow: 'auto',
-              marginTop: '-1px',
-            }}
+            className="absolute top-full left-0 right-0 border border-border bg-surface z-[100] max-h-[200px] overflow-y-auto"
+            style={{ marginTop: '-1px' }}
           >
             {options.map((option) => {
               const isSelected = selectedValues.includes(option.value);
@@ -95,16 +94,10 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                 <div
                   key={option.value}
                   onClick={() => handleSelect(option.value)}
-                  style={{
-                    padding: '0.5rem',
-                    cursor: 'pointer',
-                    background: isSelected ? 'var(--color-surface-hover)' : 'transparent',
-                    color: 'var(--color-text)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                  }}
-                  className="select-option"
+                  className={clsx(
+                    'flex items-center gap-2 p-2 cursor-pointer',
+                    isSelected ? 'bg-surface-hover text-text' : 'text-text'
+                  )}
                 >
                   {multiple && (
                     <Checkbox
@@ -116,7 +109,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                     />
                   )}
                   {!multiple && isSelected && (
-                    <Check size={14} style={{ color: 'var(--color-text)' }} />
+                    <Check size={14} className="text-text" />
                   )}
                   {option.label}
                 </div>

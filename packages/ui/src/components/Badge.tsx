@@ -2,6 +2,12 @@ import { forwardRef, type HTMLAttributes, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Badge - Status/tag indicator
+ *
+ * Variants: default, success, warning, error, info
+ */
+
 type BadgeVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {

@@ -1,5 +1,18 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import { clsx } from 'clsx';
+import { Button } from './Button';
+
+/**
+ * Tabs - Tabbed navigation component
+ *
+ * Usage:
+ * - Tabs: wrapper with defaultValue and optional onChange
+ * - TabsList: container for tabs (just a div)
+ * - TabsTrigger: clickable tab - uses Button internally (passes only variant, size, onClick, children)
+ * - TabsContent: content shown for active tab
+ *
+ * IMPORTANT: When using Button inside other components, pass only the props you need.
+ * Do NOT forward className/style unless you actually use them - it can override button styles.
+ */
 
 interface TabsContextType {
   activeTab: string;
@@ -31,13 +44,7 @@ export function Tabs({ defaultValue, children, onChange }: TabsProps) {
 
 export function TabsList({ children, className, style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
-    <div
-      className={clsx('flex flex-row', className)}
-      style={{
-        borderBottom: '1px solid var(--color-border)',
-        ...style,
-      }}
-    >
+    <div className={className} style={style}>
       {children}
     </div>
   );
@@ -46,32 +53,22 @@ export function TabsList({ children, className, style }: { children: ReactNode; 
 interface TabsTriggerProps {
   value: string;
   children: ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
 }
 
-export function TabsTrigger({ value, children, className, style }: TabsTriggerProps) {
+export function TabsTrigger({ value, children }: TabsTriggerProps) {
   const context = useContext(TabsContext);
   if (!context) throw new Error('TabsTrigger must be used within Tabs');
 
   const isActive = context.activeTab === value;
 
   return (
-    <button
-      className={clsx('text-sm font-bold uppercase tracking-wide', isActive ? 'text-text' : 'text-text-muted', className)}
+    <Button
+      variant={isActive ? 'active' : 'ghost'}
+      size="md"
       onClick={() => context.setActiveTab(value)}
-      style={{
-        padding: '0.75rem 1rem',
-        background: 'transparent',
-        border: 'none',
-        borderBottom: isActive ? '2px solid var(--color-text)' : '2px solid transparent',
-        cursor: 'pointer',
-        transition: 'border-color 0.2s, color 0.2s',
-        ...style,
-      }}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 
@@ -89,7 +86,7 @@ export function TabsContent({ value, children, className, style }: TabsContentPr
   if (context.activeTab !== value) return null;
 
   return (
-    <div className={className} style={{ padding: '1rem 0', ...style }}>
+    <div className={className} style={style}>
       {children}
     </div>
   );

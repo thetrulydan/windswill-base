@@ -2,6 +2,18 @@ import { forwardRef, type HTMLAttributes, type ReactNode, memo } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Card - Content container with semantic background
+ *
+ * Usage:
+ * - Card: outer container with bg-surface and border
+ * - CardHeader: header section
+ * - CardBody: main content area
+ * - CardFooter: footer section
+ *
+ * Uses semantic colors: bg-surface, border-border
+ */
+
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }

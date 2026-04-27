@@ -3,6 +3,26 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { LucideIcon } from 'lucide-react';
 
+/**
+ * Button - Foundation component for actions
+ *
+ * Usage in other components:
+ * - Pass only the props you need: variant, size, onClick, children
+ * - Do NOT blindly forward className/style unless you actually use them
+ * - Using className/style from parent can override button styles unexpectedly
+ *
+ * Props:
+ * - variant: primary | secondary | ghost | destructive | noPadding | active | underline
+ * - size: sm (2rem), md (2.5rem), lg (3rem)
+ * - icon: pass a lucide-react icon component to show icon + children
+ * - loading: show spinner instead of children
+ * - disabled: disable the button
+ *
+ * Example with icon:
+ *   import { Plus } from 'lucide-react';
+ *   <Button icon={Plus}>Add Item</Button>
+ */
+
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'noPadding' | 'active';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
