@@ -40,27 +40,25 @@ export default function TabsSection() {
 
       <section>
         <Heading level={3} style={{ marginBottom: 16 }}>Vertical</Heading>
-        <div style={{ display: 'flex', gap: 24 }}>
-          <Tabs defaultValue="Overview">
-            <TabsList style={{ flexDirection: 'column', borderRight: '1px solid var(--color-border)', borderBottom: 'none', paddingRight: 16 }}>
-              {tabs.map((tab) => (
-                <TabsTrigger key={tab} value={tab} style={{ textAlign: 'left' }}>{tab}</TabsTrigger>
-              ))}
-            </TabsList>
-            <TabsContent value="Overview">
-              <Text>Vertical content: <strong>Overview</strong></Text>
-            </TabsContent>
-            <TabsContent value="Features">
-              <Text>Vertical content: <strong>Features</strong></Text>
-            </TabsContent>
-            <TabsContent value="Pricing">
-              <Text>Vertical content: <strong>Pricing</strong></Text>
-            </TabsContent>
-            <TabsContent value="Contact">
-              <Text>Vertical content: <strong>Contact</strong></Text>
-            </TabsContent>
-          </Tabs>
-        </div>
+        <Tabs defaultValue="Overview" orientation="vertical">
+          <TabsList>
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab} value={tab}>{tab}</TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value="Overview">
+            <Text>Vertical content: <strong>Overview</strong></Text>
+          </TabsContent>
+          <TabsContent value="Features">
+            <Text>Vertical content: <strong>Features</strong></Text>
+          </TabsContent>
+          <TabsContent value="Pricing">
+            <Text>Vertical content: <strong>Pricing</strong></Text>
+          </TabsContent>
+          <TabsContent value="Contact">
+            <Text>Vertical content: <strong>Contact</strong></Text>
+          </TabsContent>
+        </Tabs>
       </section>
     </div>
   );

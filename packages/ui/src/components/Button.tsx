@@ -11,6 +11,9 @@ import type { LucideIcon } from 'lucide-react';
  * - Do NOT blindly forward className/style unless you actually use them
  * - Using className/style from parent can override button styles unexpectedly
  *
+ * IMPORTANT: Use Tailwind CSS classes for styling (e.g., .flex, .flex-row, .gap-4).
+ * Do NOT use inline styles like style={{ display: 'flex' }} - use className="flex" instead.
+ *
  * Props:
  * - variant: primary | secondary | ghost | destructive | noPadding | active | underline
  * - size: sm (2rem), md (2.5rem), lg (3rem)

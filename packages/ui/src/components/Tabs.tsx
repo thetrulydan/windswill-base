@@ -5,18 +5,19 @@ import { Button } from './Button';
  * Tabs - Tabbed navigation component
  *
  * Usage:
- * - Tabs: wrapper with defaultValue and optional onChange
- * - TabsList: container for tabs (just a div)
- * - TabsTrigger: clickable tab - uses Button internally (passes only variant, size, onClick, children)
+ * - Tabs: wrapper with defaultValue, orientation, onChange
+ * - TabsList: container with orientation
+ * - TabsTrigger: clickable tab - uses Button internally
  * - TabsContent: content shown for active tab
  *
- * IMPORTANT: When using Button inside other components, pass only the props you need.
- * Do NOT forward className/style unless you actually use them - it can override button styles.
+ * Props:
+ * - orientation: 'horizontal' | 'vertical' (default horizontal)
  */
 
 interface TabsContextType {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
@@ -25,9 +26,10 @@ interface TabsProps {
   defaultValue: string;
   children: ReactNode;
   onChange?: (value: string) => void;
+  orientation?: 'horizontal' | 'vertical';
 }
 
-export function Tabs({ defaultValue, children, onChange }: TabsProps) {
+export function Tabs({ defaultValue, children, onChange, orientation = 'horizontal' }: TabsProps) {
   const [activeTab, setActiveTab] = useState(defaultValue);
 
   const handleTabChange = (tab: string) => {
@@ -36,15 +38,32 @@ export function Tabs({ defaultValue, children, onChange }: TabsProps) {
   };
 
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange }}>
-      {children}
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange, orientation }}>
+      <div className={`flex ${orientation === 'vertical' ? 'flex-row' : 'flex-col'}`} style={{ gap: '1.5rem', alignItems: 'flex-start' }}>
+        {children}
+      </div>
     </TabsContext.Provider>
   );
 }
 
-export function TabsList({ children, className, style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) {
+interface TabsListProps {
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export function TabsList({ children, className, style }: TabsListProps) {
+  const context = useContext(TabsContext);
+  const orientation = context?.orientation || 'horizontal';
+  const isVertical = orientation === 'vertical';
+  
+  const containerStyle: React.CSSProperties = {
+    ...(isVertical ? { borderRight: '1px solid var(--color-border)', paddingRight: '1rem' } : {}),
+    ...style,
+  };
+   
   return (
-    <div className={className} style={style}>
+    <div className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${className || ''}`} style={containerStyle}>
       {children}
     </div>
   );
@@ -60,12 +79,14 @@ export function TabsTrigger({ value, children }: TabsTriggerProps) {
   if (!context) throw new Error('TabsTrigger must be used within Tabs');
 
   const isActive = context.activeTab === value;
+  const isVertical = context.orientation === 'vertical';
 
   return (
     <Button
       variant={isActive ? 'active' : 'ghost'}
       size="md"
       onClick={() => context.setActiveTab(value)}
+      className={isVertical ? 'justify-start' : undefined}
     >
       {children}
     </Button>
