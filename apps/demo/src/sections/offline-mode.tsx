@@ -28,18 +28,7 @@ export default function OfflineModeSection() {
       <section style={{ marginBottom: 32 }}>
         <Heading level={3} style={{ marginBottom: 16 }}>Simulation</Heading>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          <button
-            onClick={handleOnlineToggle}
-            style={{
-              width: 48,
-              height: 24,
-              borderRadius: 12,
-              border: 'none',
-              background: offline ? '#ef4444' : '#22c55e',
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-          >
+          <Button variant="ghost" size="sm" onClick={handleOnlineToggle} aria-label="Toggle online/offline" style={{ width: 48, height: 24, borderRadius: 12, padding: 0, background: offline ? '#ef4444' : '#22c55e', position: 'relative', cursor: 'pointer' }}>
             <span
               style={{
                 position: 'absolute',
@@ -52,7 +41,7 @@ export default function OfflineModeSection() {
                 transition: 'left 0.2s',
               }}
             />
-          </button>
+          </Button>
           <Text>{offline ? 'Offline' : 'Online'}</Text>
         </div>
       </section>

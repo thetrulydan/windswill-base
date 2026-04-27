@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import * as LucideIcons from 'lucide-react';
+import { Button } from '@windswill/ui/components/Button';
 
 export default function TopbarSection() {
   const [showLeft, setShowLeft] = useState(true);
@@ -60,12 +61,8 @@ export default function TopbarSection() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {showRight && (
               <>
-                <button style={{ background: 'none', border: 'none', color: 'var(--color-text)', cursor: 'pointer' }}>
-                  <LucideIcons.Search size={18} />
-                </button>
-                <button style={{ background: 'none', border: 'none', color: 'var(--color-text)', cursor: 'pointer' }}>
-                  <LucideIcons.Settings size={18} />
-                </button>
+                <Button size="sm" aria-label="Search" onClick={() => {}} icon={LucideIcons.Search} />
+                <Button size="sm" aria-label="Settings" onClick={() => {}} icon={LucideIcons.Settings} />
                 <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-text)', color: 'var(--color-background)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
                   JD
                 </div>

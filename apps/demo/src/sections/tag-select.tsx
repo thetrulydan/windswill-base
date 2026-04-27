@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import { TagChip } from '@windswill/ui/components/TagChip';
+import { Button } from '@windswill/ui/components/Button';
 
 const options = ['Action', 'Adventure', 'RPG', 'Strategy', 'Puzzle', 'Simulation'];
 
@@ -25,11 +26,12 @@ export default function TagSelectSection() {
         <Heading level={3} style={{ marginBottom: 16 }}>Toggle Buttons</Heading>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {options.map((opt) => (
-            <button
+            <Button
               key={opt}
               onClick={() => toggle(opt)}
-              style={{
-                padding: '0.375rem 0.75rem',
+              variant={selected.includes(opt) ? 'secondary' : 'ghost'}
+              size="md"
+              style={{ padding: '0.375rem 0.75rem', minWidth: 0,
                 border: selected.includes(opt) ? 'none' : '1px solid var(--color-border)',
                 background: selected.includes(opt) ? 'var(--color-text)' : 'transparent',
                 color: selected.includes(opt) ? 'var(--color-background)' : 'var(--color-text-muted)',
@@ -41,7 +43,7 @@ export default function TagSelectSection() {
               }}
             >
               {opt}
-            </button>
+            </Button>
           ))}
         </div>
       </section>

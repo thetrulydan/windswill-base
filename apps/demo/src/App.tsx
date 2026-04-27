@@ -207,36 +207,9 @@ function ToastContainer() {
             {toast.message}
           </span>
           {toast.action && (
-            <button
-              onClick={toast.action.onClick}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--color-text)',
-                padding: '4px 8px',
-                cursor: 'pointer',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-              }}
-            >
-              {toast.action.label}
-            </button>
+            <Button variant="ghost" size="sm" onClick={toast.action.onClick}>{toast.action.label}</Button>
           )}
-          <button
-            onClick={() => dismiss(toast.id)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--color-text-muted)',
-              cursor: 'pointer',
-              padding: 4,
-              fontSize: 16,
-            }}
-          >
-            ×
-          </button>
+            <Button variant="ghost" size="sm" onClick={() => dismiss(toast.id)}>×</Button>
         </div>
       ))}
     </div>

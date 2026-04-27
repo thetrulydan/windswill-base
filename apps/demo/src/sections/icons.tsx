@@ -3,6 +3,7 @@ import * as LucideIcons from 'lucide-react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import { useToast } from '../hooks/useToast';
+import { Button } from '@windswill/ui/components/Button';
 
 const iconNames = [
   'Home', 'Settings', 'User', 'Search', 'Menu', 'X', 'Check', 'ChevronDown',
@@ -50,7 +51,7 @@ export default function Icons() {
         />
       </section>
 
-      <section>
+        <section>
         <div
           style={{
             display: 'grid',
@@ -61,25 +62,14 @@ export default function Icons() {
           {filteredIcons.map((name) => {
             const IconComponent = (LucideIcons as Record<string, unknown>)[name] as React.ComponentType<{ size?: number }>;
             return (
-              <button
+              <Button
                 key={name}
                 onClick={() => copyIcon(name)}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: 16,
-                  background: 'var(--color-surface)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 8,
-                  cursor: 'pointer',
-                  color: 'var(--color-text)',
-                }}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: 16, background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8 }}
               >
                 {IconComponent && <IconComponent size={24} />}
                 <Text style={{ fontSize: 11 }}>{name}</Text>
-              </button>
+              </Button>
             );
           })}
         </div>

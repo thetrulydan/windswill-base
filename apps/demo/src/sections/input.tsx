@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input } from '@windswill/ui/components/Input';
 import { Select } from '@windswill/ui/components/Select';
 import { DatePicker } from '@windswill/ui/components/DatePicker';
+import { Button } from '@windswill/ui/components/Button';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
 import { useToast } from '../hooks/useToast';
@@ -43,12 +44,7 @@ export default function InputSection() {
             type={passwordShow ? 'text' : 'password'}
             placeholder="Password"
             trailing={
-              <button
-                onClick={() => setPasswordShow(!passwordShow)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
-              >
-                {passwordShow ? <LucideIcons.EyeOff size={16} /> : <LucideIcons.Eye size={16} />}
-              </button>
+              <Button variant="ghost" size="sm" onClick={() => setPasswordShow(!passwordShow)} aria-label="Toggle password" icon={passwordShow ? LucideIcons.EyeOff : LucideIcons.Eye} />
             }
           />
           <Input type="number" placeholder="Number input" onChange={handleChange} />
@@ -60,12 +56,7 @@ export default function InputSection() {
             leading={<LucideIcons.Search size={16} />}
             trailing={
               searchValue && (
-                <button
-                  onClick={() => setSearchValue('')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
-                >
-                  <LucideIcons.X size={16} />
-                </button>
+                <Button variant="ghost" size="sm" onClick={() => setSearchValue('')} aria-label="Clear search" icon={LucideIcons.X} />
               )
             }
           />
