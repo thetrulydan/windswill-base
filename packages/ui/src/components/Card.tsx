@@ -46,7 +46,7 @@ export const CardHeader = memo(forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div
         ref={ref}
-        className={twMerge(clsx(className))}
+        className={twMerge(clsx('flex flex-row', className))}
         style={{
           padding: '0.75rem 1rem',
           borderBottom: '1px solid var(--color-border)',
@@ -67,9 +67,11 @@ export const CardBody = memo(forwardRef<HTMLDivElement, CardBodyProps>(
     return (
       <div
         ref={ref}
-        className={twMerge(clsx(className))}
+        className={twMerge(clsx('flex flex-col', className))}
         style={{
           padding: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
           ...style,
         }}
         {...props}
@@ -87,11 +89,10 @@ export const CardFooter = memo(forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={twMerge(clsx(className))}
+        className={twMerge(clsx('flex flex-row', className))}
         style={{
           padding: '0.75rem 1rem',
           borderTop: '1px solid var(--color-border)',
-          display: 'flex',
           justifyContent: 'flex-end',
           gap: '0.5rem',
           ...style,

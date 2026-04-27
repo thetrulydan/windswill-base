@@ -15,9 +15,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeStyles = {
-  sm: { height: '2rem', padding: '0.25rem 0.625rem', fontSize: '0.6875rem' },
-  md: { height: '2.5rem', padding: '0.5rem 1rem', fontSize: '0.8125rem' },
-  lg: { height: '3rem', padding: '0.75rem 1.25rem', fontSize: '0.9375rem' },
+  sm: 'h-8 px-2 text-xs',
+  md: 'h-10 px-4 text-sm',
+  lg: 'h-12 px-5 text-base',
+};
+
+const underlineSizes = {
+  sm: 'py-1 text-xs',
+  md: 'py-2 text-sm',
+  lg: 'py-3 text-base',
 };
 
 const iconSizes = {
@@ -64,11 +70,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         borderRadius: 0,
         color: 'var(--color-text-muted)',
         transition: 'background 150ms ease, color 150ms ease, border-color 150ms ease',
-        fontSize: 'var(--text-sm)',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
-        ...sizeStyles[size],
       };
 
       if (variant === 'primary') {
@@ -78,6 +82,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         styles.borderRight = '0px';
         styles.borderLeft = '0px';
         styles.borderBottom = '1px solid var(--color-text-muted)';
+      } else if (variant === 'underline') {
+        styles.border = 'none';
+        styles.height = 'auto';
+        styles.padding = '0.125rem 0';
       } else if (variant === 'destructive' || variant === 'noPadding' || variant === 'active' || variant === 'ghost') {
         styles.border = 'none';
       }
@@ -124,6 +132,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={twMerge(
           clsx(
             'inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
+            variant === 'underline' ? underlineSizes[size] : sizeStyles[size],
             className
           )
         )}
@@ -146,6 +155,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           } else if (variant === 'destructive') {
             e.currentTarget.style.background = 'var(--color-error)';
             e.currentTarget.style.color = 'var(--color-background)';
+          } else if (variant === 'underline') {
+            e.currentTarget.style.boxShadow = '0 1px 0 var(--color-text)';
+            e.currentTarget.style.color = 'var(--color-text)';
           }
         }}
         onMouseLeave={(e) => {
@@ -165,6 +177,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           } else if (variant === 'destructive') {
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.color = 'var(--color-error)';
+          } else if (variant === 'underline') {
+            e.currentTarget.style.boxShadow = 'none';
+            e.currentTarget.style.color = 'var(--color-text-muted)';
           }
         }}
         {...props}

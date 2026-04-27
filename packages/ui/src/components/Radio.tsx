@@ -23,10 +23,27 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           checked={checked}
           onChange={onChange}
           disabled={disabled}
+          onMouseEnter={(e) => {
+            if (disabled) return;
+            e.currentTarget.style.borderColor = 'var(--color-text)';
+          }}
+          onMouseLeave={(e) => {
+            if (disabled) return;
+            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
+          }}
+          className="radio-input"
           style={{
+            appearance: 'none',
+            WebkitAppearance: 'none',
             width: '1.125rem',
             height: '1.125rem',
-            accentColor: 'var(--color-text)',
+            borderRadius: '50%',
+            border: '1px solid var(--color-text-muted)',
+            background: 'transparent',
+            outline: 'none',
+            cursor: disabled ? 'not-allowed' : 'pointer',
+            margin: 0,
+            transition: 'border-color 150ms ease',
           }}
           {...props}
         />

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { navConfig, findNavItem } from './nav.config';
 import { useToast, useToastStore } from './hooks/useToast';
@@ -33,6 +33,10 @@ function Layout() {
     setTheme(t);
     document.documentElement.setAttribute('data-theme', t);
   };
+
+  useEffect(() => {
+    applyTheme('dark');
+  }, []);
 
   const location = useLocation();
   const currentItem = findNavItem(location.pathname);
