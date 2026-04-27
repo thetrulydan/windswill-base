@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Heading } from '@windswill/ui/components/Heading';
 import { Text } from '@windswill/ui/components/Text';
+import { IconButton } from '@windswill/ui/components/IconButton';
 import { useToast } from '../hooks/useToast';
-import * as LucideIcons from 'lucide-react';
-import { Button } from '@windswill/ui/components/Button';
+import { Trash2, Edit, Share2, X, Plus } from 'lucide-react';
 
 export default function FabClusterSection() {
   const toast = useToast();
@@ -18,16 +18,22 @@ export default function FabClusterSection() {
 
       <section>
         <Heading level={3} style={{ marginBottom: 16 }}>Demo</Heading>
-        <div style={{ position: 'relative', height: 300, background: 'var(--color-surface)', borderRadius: 0, border: '1px solid var(--color-border)' }}>
+        <div style={{ position: 'relative', height: 300, background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
           <div style={{ position: 'absolute', bottom: 20, right: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
             {isOpen && (
               <>
-                <Button onClick={() => toast.success('Delete clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#ef4444', color: 'white', border: 'none' }} icon={LucideIcons.Trash2} aria-label="Delete" />
-                <Button onClick={() => toast.success('Edit clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#3b82f6', color: 'white', border: 'none' }} icon={LucideIcons.Edit} aria-label="Edit" />
-                <Button onClick={() => toast.success('Share clicked')} variant="ghost" style={{ width: 48, height: 48, borderRadius: '50%', padding: 0, background: '#22c55e', color: 'white', border: 'none' }} icon={LucideIcons.Share2} aria-label="Share" />
+                <IconButton icon={Trash2} variant="fab-destructive" size="fab-md" onClick={() => toast.success('Delete clicked')} label="Delete" />
+                <IconButton icon={Edit} variant="fab-primary" onClick={() => toast.success('Edit clicked')} label="Edit" style={{ background: '#3b82f6' }} />
+                <IconButton icon={Share2} variant="fab-primary" onClick={() => toast.success('Share clicked')} label="Share" style={{ background: '#22c55e' }} />
               </>
             )}
-            <Button onClick={() => setIsOpen(!isOpen)} variant="ghost" style={{ width: 56, height: 56, borderRadius: '50%', padding: 0, background: 'var(--color-text)', color: 'var(--color-background)', border: 'none' }} icon={isOpen ? LucideIcons.X : LucideIcons.Plus} aria-label="Toggle" />
+            <IconButton 
+              icon={isOpen ? X : Plus} 
+              variant="fab-primary" 
+              size="fab-md"
+              onClick={() => setIsOpen(!isOpen)} 
+              label={isOpen ? 'Close' : 'Open'} 
+            />
           </div>
         </div>
       </section>

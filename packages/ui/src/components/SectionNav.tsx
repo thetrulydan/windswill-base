@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { type ReactNode } from 'react';
+import { Button } from './Button';
+import type { LucideIcon } from 'lucide-react';
 
 interface SectionNavItem {
   id: string;
   label: string;
   count?: number;
-  icon?: ReactNode;
+  icon?: LucideIcon;
 }
 
 interface SectionNavProps {
@@ -27,52 +28,21 @@ export function SectionNav({ items, value: controlledValue, onChange }: SectionN
   };
 
   return (
-    <nav style={{
-      padding: 12,
-      background: 'var(--color-surface)',
-      border: '1px solid var(--color-border)',
-      borderRadius: 0,
-      width: 240,
-    }}>
+    <nav className="p-3 bg-surface border border-border" style={{ width: 240 }}>
       {items.map((item) => {
         const isActive = activeId === item.id;
         return (
-          <button
+          <Button
             key={item.id}
+            variant={isActive ? 'active' : 'ghost'}
+            size="md"
             onClick={() => setActive(item.id)}
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 12px',
-              border: 'none',
-              background: isActive ? 'var(--color-surface-raised)' : 'transparent',
-              color: 'var(--color-text)',
-              borderRadius: 0,
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontSize: 'inherit',
-              fontFamily: 'inherit',
-            }}
+            icon={item.icon}
+            count={item.count}
+            className="w-full justify-between"
           >
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {item.icon}
-              {item.label}
-            </span>
-            {item.count !== undefined && (
-              <span style={{
-                background: isActive ? 'var(--color-text)' : 'var(--color-surface-raised)',
-                color: isActive ? 'var(--color-background)' : 'var(--color-text-muted)',
-                padding: '2px 8px',
-                borderRadius: 0,
-                fontSize: 11,
-                fontWeight: 600,
-              }}>
-                {item.count}
-              </span>
-            )}
-          </button>
+            {item.label}
+          </Button>
         );
       })}
     </nav>

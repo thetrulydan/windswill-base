@@ -9,12 +9,12 @@ export default function SidebarDemoSection() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', href: '#', icon: <LayoutDashboard size={18} /> },
-    { id: 'projects', label: 'Projects', href: '#', icon: <FolderKanban size={18} /> },
-    { id: 'tasks', label: 'Tasks', href: '#', icon: <CheckSquare size={18} /> },
-    { id: 'team', label: 'Team', href: '#', icon: <Users size={18} /> },
-    { id: 'reports', label: 'Reports', href: '#', icon: <BarChart3 size={18} /> },
-    { id: 'settings', label: 'Settings', href: '#', icon: <Settings size={18} /> },
+    { id: 'dashboard', label: 'Dashboard', href: '#', icon: LayoutDashboard, count: 3 },
+    { id: 'projects', label: 'Projects', href: '#', icon: FolderKanban, count: 12 },
+    { id: 'tasks', label: 'Tasks', href: '#', icon: CheckSquare, count: 48 },
+    { id: 'team', label: 'Team', href: '#', icon: Users, count: 5 },
+    { id: 'reports', label: 'Reports', href: '#', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', href: '#', icon: Settings },
   ];
 
   return (

@@ -2,6 +2,21 @@ import { type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { IconButton } from './IconButton';
 import { Button } from './Button';
+import { Text } from './Text';
+
+/**
+ * Drawer - Slide-in panel from screen edge
+ *
+ * Usage:
+ * - open: controls visibility
+ * - onClose: callback when backdrop/close btn clicked
+ * - edge: top | right (default) | bottom | left
+ * - title: header title
+ * - primaryButton, secondaryButton: footer action buttons
+ *
+ * Uses IconButton for close button, Button for actions.
+ * Similar structure to Modal but slides from edge.
+ */
 
 type DrawerEdge = 'top' | 'right' | 'bottom' | 'left';
 
@@ -69,14 +84,11 @@ export function Drawer({
         }}
       />
       <div
+        className="bg-surface"
         style={{
           position: 'fixed',
           [edge]: 0,
-          top: edge === 'left' || edge === 'right' ? 0 : undefined,
-          bottom: edge === 'left' || edge === 'right' ? 0 : undefined,
-          width: edge === 'top' || edge === 'bottom' ? '100%' : dimensions.width,
-          height: edge === 'left' || edge === 'right' ? '100%' : dimensions.height,
-          background: 'var(--color-surface)',
+          ...(edge === 'left' || edge === 'right' ? { top: 0, bottom: 0, width: dimensions.width } : { left: 0, width: '100%', height: dimensions.height }),
           [border]: '1px solid var(--color-border)',
           zIndex: 41,
           display: 'flex',
@@ -84,16 +96,10 @@ export function Drawer({
         }}
       >
         {showHeader && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '16px 20px',
-              borderBottom: '1px solid var(--color-border)',
-            }}
-          >
-            <span style={{ fontWeight: 600 }}>{title || 'Drawer'}</span>
+          <div className="flex justify-between items-center p-5" style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <Text style={{ fontWeight: 600 }}>
+              {title || 'Drawer'}
+            </Text>
             <IconButton
               icon={X}
               size="sm"
@@ -103,20 +109,12 @@ export function Drawer({
           </div>
         )}
 
-        <div style={{ padding: 20, flex: 1, overflow: 'auto' }}>
+        <div className="p-5" style={{ flex: 1, overflow: 'auto' }}>
           {children}
         </div>
 
         {shouldShowFooter && (
-          <div
-            style={{
-              padding: '12px 20px',
-              borderTop: '1px solid var(--color-border)',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: 12,
-            }}
-          >
+          <div className="flex justify-end gap-3 p-3" style={{ borderTop: '1px solid var(--color-border)' }}>
             {footer || (
               <>
                 {secondaryButton && (

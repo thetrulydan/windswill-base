@@ -2,6 +2,21 @@ import { type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { IconButton } from './IconButton';
 import { Button } from './Button';
+import { Heading } from './Heading';
+import { Text } from './Text';
+
+/**
+ * Modal - Dialog overlay component
+ *
+ * Usage:
+ * - open: controls visibility
+ * - onClose: callback when backdrop close btn clicked
+ * - title, description: header content
+ * - size: sm (400px), md (560px), lg (720px)
+ * - primaryButton, secondaryButton: footer action buttons
+ *
+ * Uses IconButton for close button, Button for actions.
+ */
 
 type ModalSize = 'sm' | 'md' | 'lg';
 
@@ -70,6 +85,7 @@ export function Modal({
       />
       <div
         onClick={handleContentClick}
+        className="bg-surface border border-border"
         style={{
           position: 'fixed',
           top: '50%',
@@ -78,35 +94,23 @@ export function Modal({
           width: sizeMap[size],
           maxWidth: '90vw',
           maxHeight: '80vh',
-          background: 'var(--color-surface)',
-          borderRadius: 0,
-          border: '1px solid var(--color-border)',
           zIndex: 51,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
         {showHeader && (
-          <div
-            style={{
-              padding: '16px 20px',
-              borderBottom: '1px solid var(--color-border)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              gap: 16,
-            }}
-          >
+          <div className="flex justify-between items-start gap-4 p-5" style={{ borderBottom: '1px solid var(--color-border)' }}>
             <div style={{ flex: 1 }}>
               {title && (
-                <span style={{ fontWeight: 600, fontSize: 18, display: 'block' }}>
+                <Text style={{ fontWeight: 600, fontSize: 18, display: 'block' }}>
                   {title}
-                </span>
+                </Text>
               )}
               {description && (
-                <span style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>
+                <Text variant="muted" style={{ fontSize: 14 }}>
                   {description}
-                </span>
+                </Text>
               )}
             </div>
             <IconButton
@@ -118,20 +122,12 @@ export function Modal({
           </div>
         )}
 
-        <div style={{ padding: 20, overflow: 'auto', flex: 1 }}>
+        <div className="p-5" style={{ flex: 1, overflow: 'auto' }}>
           {children}
         </div>
 
         {shouldShowFooter && (
-          <div
-            style={{
-              padding: '12px 20px',
-              borderTop: '1px solid var(--color-border)',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: 12,
-            }}
-          >
+          <div className="flex justify-end gap-3 p-3" style={{ borderTop: '1px solid var(--color-border)' }}>
             {footer || (
               <>
                 {secondaryButton && (

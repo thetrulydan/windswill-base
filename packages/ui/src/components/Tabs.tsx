@@ -39,7 +39,10 @@ export function Tabs({ defaultValue, children, onChange, orientation = 'horizont
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange, orientation }}>
-      <div className={`flex ${orientation === 'vertical' ? 'flex-row' : 'flex-col'}`} style={{ gap: '1.5rem', alignItems: 'flex-start' }}>
+      <div 
+        className={`flex ${orientation === 'vertical' ? 'flex-row' : 'flex-col'}`}
+        style={{ alignItems: 'stretch' }}
+      >
         {children}
       </div>
     </TabsContext.Provider>
@@ -56,14 +59,9 @@ export function TabsList({ children, className, style }: TabsListProps) {
   const context = useContext(TabsContext);
   const orientation = context?.orientation || 'horizontal';
   const isVertical = orientation === 'vertical';
-  
-  const containerStyle: React.CSSProperties = {
-    ...(isVertical ? { borderRight: '1px solid var(--color-border)', paddingRight: '1rem' } : {}),
-    ...style,
-  };
    
   return (
-    <div className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${className || ''}`} style={containerStyle}>
+    <div className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${className || ''}`} style={style}>
       {children}
     </div>
   );
@@ -106,8 +104,16 @@ export function TabsContent({ value, children, className, style }: TabsContentPr
 
   if (context.activeTab !== value) return null;
 
+  const isVertical = context.orientation === 'vertical';
+  
   return (
-    <div className={className} style={style}>
+    <div 
+      className={className} 
+      style={{ 
+        ...(isVertical ? { borderLeft: '1px solid var(--color-border)', minHeight: '100%', flex: 1 } : {}),
+        ...style,
+      }}
+    >
       {children}
     </div>
   );

@@ -70,9 +70,8 @@ export function Pagination({ page, totalPages, onChange, siblingCount = 1 }: Pag
           <Button
             key={item}
             size="sm"
-            variant={page === item ? 'primary' : 'secondary'}
+            variant={page === item ? 'active' : 'ghost'}
             onClick={() => handlePageChange(item as number)}
-            style={{ minWidth: 36 }}
           >
             {item}
           </Button>
