@@ -56,12 +56,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              transition: 'all 150ms ease',
+              transform: checked ? 'scale(1)' : 'scale(1)',
             }}
           >
             {checked && (
               <Check
                 size={12}
-                style={{ color: 'var(--color-background)' }}
+                style={{ 
+                  color: 'var(--color-background)',
+                  transition: 'transform 150ms ease',
+                  transform: 'scale(1) rotate(0deg)',
+                }}
               />
             )}
           </div>
