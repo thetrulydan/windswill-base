@@ -118,3 +118,37 @@ button.btn-hover-destructive:hover:not(:disabled) {
 .select-option:hover {
   background: var(--color-surface-hover);
 }
+
+/* Scrollbar styles - cross-browser */
+/* Thumb shows on hover, arrows never appear - use overlay to hide arrows */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  overflow: overlay;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--color-border) 50%, transparent);
+}
+
+*:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border);
+}
+
+*:hover {
+  scrollbar-color: color-mix(in srgb, var(--color-border) 50%, transparent) transparent;
+}
