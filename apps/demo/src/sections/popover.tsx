@@ -83,6 +83,22 @@ export default function PopoverSection() {
           </AnchorPopover>
         </div>
       </section>
+
+      <section>
+        <Heading level={3} style={{ marginBottom: 16 }}>Hover Trigger (Tooltip)</Heading>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          {directions.map((dir) => (
+            <AnchorPopover
+              key={dir}
+              anchor={<Button variant="secondary">{dir}</Button>}
+              placement={dir}
+              trigger="hover"
+            >
+              <Text variant="muted">Tooltip on hover</Text>
+            </AnchorPopover>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

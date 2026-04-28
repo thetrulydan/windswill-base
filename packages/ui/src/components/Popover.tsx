@@ -64,6 +64,7 @@ interface AnchorPopoverProps {
   size?: PopoverSize;
   title?: string;
   showClose?: boolean;
+  trigger?: 'click' | 'hover';
   children: ReactNode;
   className?: string;
 }
@@ -74,6 +75,7 @@ export function AnchorPopover({
   size = 'md',
   title,
   showClose,
+  trigger = 'click',
   children,
   className,
 }: AnchorPopoverProps) {
@@ -137,7 +139,21 @@ export function AnchorPopover({
   }, [isOpen, placement]);
 
   const handleClick = () => {
-    setIsOpen(!isOpen);
+    if (trigger === 'click') {
+      setIsOpen(!isOpen);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (trigger === 'hover') {
+      setIsOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (trigger === 'hover') {
+      setIsOpen(false);
+    }
   };
 
   const getTransform = () => {
@@ -196,7 +212,13 @@ export function AnchorPopover({
 
   return (
     <>
-      <div ref={triggerRef} onClick={handleClick} style={{ position: 'relative', display: 'inline-block', boxSizing: 'border-box' }}>
+      <div 
+        ref={triggerRef} 
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{ position: 'relative', display: 'inline-block', boxSizing: 'border-box' }}
+      >
         {anchor}
       </div>
       {isOpen && containerEl && createPortal(popoverWrapper, containerEl)}
