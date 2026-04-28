@@ -51,7 +51,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
             outline: 'none',
             cursor: disabled ? 'not-allowed' : 'pointer',
             margin: 0,
-            transition: 'border-color 150ms ease',
+            transition: 'border-color 150ms ease, transform 150ms ease',
+            transform: checked ? 'scale(1.1)' : 'scale(1)',
           }}
           {...props}
         />
