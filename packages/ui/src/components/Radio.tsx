@@ -25,37 +25,57 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           ...style,
         }}
       >
-        <input
-          ref={ref}
-          type="radio"
-          checked={checked}
-          onChange={onChange}
-          disabled={disabled}
-          onMouseEnter={(e) => {
-            if (disabled) return;
-            e.currentTarget.style.borderColor = 'var(--color-text)';
-          }}
-          onMouseLeave={(e) => {
-            if (disabled) return;
-            e.currentTarget.style.borderColor = 'var(--color-text-muted)';
-          }}
-          className="radio-input"
+        <div
           style={{
-            appearance: 'none',
-            WebkitAppearance: 'none',
+            position: 'relative',
             width: '1.125rem',
             height: '1.125rem',
-            borderRadius: '50%',
-            border: '1px solid var(--color-text-muted)',
-            background: 'transparent',
-            outline: 'none',
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            margin: 0,
-            transition: 'border-color 150ms ease, transform 150ms ease',
-            transform: checked ? 'scale(1.1)' : 'scale(1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-          {...props}
-        />
+        >
+          <input
+            ref={ref}
+            type="radio"
+            checked={checked}
+            onChange={onChange}
+            disabled={disabled}
+            style={{
+              position: 'absolute',
+              opacity: 0,
+              width: '1.125rem',
+              height: '1.125rem',
+              margin: 0,
+              cursor: 'pointer',
+            }}
+            {...props}
+          />
+          <div
+            style={{
+              width: '1.125rem',
+              height: '1.125rem',
+              borderRadius: '50%',
+              border: '1px solid var(--color-text-muted)',
+              background: 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'border-color 150ms ease',
+            }}
+          >
+            <div
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: 'var(--color-text)',
+                opacity: checked ? 1 : 0,
+                transition: 'opacity 150ms ease',
+              }}
+            />
+          </div>
+        </div>
         {label && (
           <span style={{ color: 'var(--color-text)', fontSize: '0.9375rem' }}>
             {label}

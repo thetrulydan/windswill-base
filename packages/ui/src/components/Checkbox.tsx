@@ -56,20 +56,17 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 150ms ease',
-              transform: checked ? 'scale(1)' : 'scale(1)',
+              transition: 'background 150ms ease',
             }}
           >
-            {checked && (
-              <Check
-                size={12}
-                style={{ 
-                  color: 'var(--color-background)',
-                  transition: 'transform 150ms ease',
-                  transform: 'scale(1) rotate(0deg)',
-                }}
-              />
-            )}
+            <Check
+              size={12}
+              style={{ 
+                color: 'var(--color-background)',
+                opacity: checked ? 1 : 0,
+                transition: 'opacity 150ms ease',
+              }}
+            />
           </div>
         </div>
         {label && (

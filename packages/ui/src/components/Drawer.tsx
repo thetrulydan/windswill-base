@@ -46,6 +46,13 @@ const dimensionMap: Record<DrawerEdge, { width?: string; height?: string }> = {
   right: { width: '360px' },
 };
 
+const transformMap: Record<DrawerEdge, { transform: string; to: string }> = {
+  top: { transform: 'translateY(-100%)', to: 'translateY(0)' },
+  bottom: { transform: 'translateY(100%)', to: 'translateY(0)' },
+  left: { transform: 'translateX(-100%)', to: 'translateX(0)' },
+  right: { transform: 'translateX(100%)', to: 'translateX(0)' },
+};
+
 const borderMap: Record<DrawerEdge, string> = {
   top: 'borderBottom',
   bottom: 'borderTop',
@@ -66,9 +73,11 @@ export function Drawer({
   children,
 }: DrawerProps) {
   if (!open) return null;
-
+  
   const dimensions = dimensionMap[edge];
   const border = borderMap[edge];
+  const transform = transformMap[edge].transform;
+  const transformTo = transformMap[edge].to;
   const hasFooterButtons = primaryButton || secondaryButton;
   const shouldShowFooter = showFooter && (footer || hasFooterButtons);
 
@@ -81,6 +90,9 @@ export function Drawer({
           inset: 0,
           background: 'rgba(0, 0, 0, 0.5)',
           zIndex: 40,
+          opacity: open ? 1 : 0,
+          transition: 'opacity 200ms ease',
+          pointerEvents: open ? 'auto' : 'none',
         }}
       />
       <div
@@ -93,6 +105,8 @@ export function Drawer({
           zIndex: 41,
           display: 'flex',
           flexDirection: 'column',
+          transform: open ? transformTo : transform,
+          transition: 'transform 200ms ease',
         }}
       >
         {showHeader && (
