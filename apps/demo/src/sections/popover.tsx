@@ -65,6 +65,23 @@ export default function PopoverSection() {
         >
           <Text variant="muted">Content with a close button.</Text>
         </AnchorPopover>
+        <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+          <AnchorPopover anchor={<Button variant="primary">Primary</Button>} placement="right">
+            <Text variant="muted">Primary button</Text>
+          </AnchorPopover>
+          <AnchorPopover anchor={<Button variant="secondary">Secondary</Button>} placement="right">
+            <Text variant="muted">Secondary button</Text>
+          </AnchorPopover>
+          <AnchorPopover anchor={<Button variant="ghost">Ghost</Button>} placement="right">
+            <Text variant="muted">Ghost button</Text>
+          </AnchorPopover>
+          <AnchorPopover anchor={<Button variant="underline">Underline</Button>} placement="right">
+            <Text variant="muted">Underline button</Text>
+          </AnchorPopover>
+          <AnchorPopover anchor={<Button variant="destructive">Destructive</Button>} placement="right">
+            <Text variant="muted">Destructive button</Text>
+          </AnchorPopover>
+        </div>
       </section>
     </div>
   );

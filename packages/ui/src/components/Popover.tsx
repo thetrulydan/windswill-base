@@ -1,22 +1,9 @@
-import { type ReactNode, useState, useRef, useEffect, cloneElement, isValidElement, useLayoutEffect } from 'react';
+import { type ReactNode, useState, useRef, useEffect, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { IconButton } from './IconButton';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-
-/**
- * Popover - Anchored overlay with directional pointer
- *
- * Usage:
- * - Popover: controlled popover component (open/onClose managed externally)
- * - AnchorPopover: self-controlled anchored popover with trigger anchor
- * - placement: top/right/bottom/left - direction the arrow points
- * - size: sm/md/lg - width of the popover (default: md)
- * - showArrow: show the directional pointer
- * - showClose: show close button
- *
- * Uses semantic colors: bg-surface, border-border, text-text-muted
- */
 
 type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left';
 type PopoverSize = 'sm' | 'md' | 'lg';
@@ -33,18 +20,10 @@ interface PopoverProps {
   title?: string;
   placement?: PopoverPlacement;
   size?: PopoverSize;
-  showArrow?: boolean;
   showClose?: boolean;
   children: ReactNode;
   className?: string;
 }
-
-const arrowStyles: Record<PopoverPlacement, React.CSSProperties> = {
-  top: { position: 'absolute' as const, width: 12, height: 12, bottom: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)', borderBottom: '1px solid var(--color-border)', borderRight: '1px solid var(--color-border)', background: 'var(--color-surface)' },
-  right: { position: 'absolute' as const, width: 12, height: 12, left: -6, top: '50%', transform: 'translateY(-50%) rotate(45deg)', borderBottom: '1px solid var(--color-border)', borderLeft: '1px solid var(--color-border)', background: 'var(--color-surface)' },
-  bottom: { position: 'absolute' as const, width: 12, height: 12, top: -6, left: '50%', transform: 'translateX(-50%) rotate(45deg)', borderTop: '1px solid var(--color-border)', borderLeft: '1px solid var(--color-border)', background: 'var(--color-surface)' },
-  left: { position: 'absolute' as const, width: 12, height: 12, right: -6, top: '50%', transform: 'translateY(-50%) rotate(45deg)', borderTop: '1px solid var(--color-border)', borderRight: '1px solid var(--color-border)', background: 'var(--color-surface)' },
-};
 
 export function Popover({
   open,
@@ -52,66 +31,72 @@ export function Popover({
   title,
   placement = 'bottom',
   size = 'md',
-  showArrow = true,
   showClose = false,
   children,
   className,
 }: PopoverProps) {
   if (!open) return null;
 
-  return (
-    <div className={twMerge(clsx('relative', className))}>
-      <div className={twMerge(clsx('relative bg-surface border rounded-none p-4', popoverWidths[size]))}>
-        {(title || showClose) && (
-          <div className="flex flex-row justify-between items-center mb-2">
-            {title && (
-              <span className="text-sm font-semibold">
-                {title}
-              </span>
-            )}
-            {showClose && (
-              <IconButton
-                icon={X}
-                size="sm"
-                onClick={onClose}
-                label="Close"
-              />
-            )}
-          </div>
-        )}
-        <div className="text-sm text-text-muted">
-          {children}
-        </div>
+  const arrowStyles: Record<PopoverPlacement, CSSProperties> = {
+    top: { position: 'absolute', width: 12, height: 12, bottom: -6, left: '50%', marginLeft: -6, transform: 'rotate(45deg)', borderBottom: '1px solid #d4d4d4', borderRight: '1px solid #d4d4d4', background: '#ffffff', overflow: 'visible' },
+    right: { position: 'absolute', width: 12, height: 12, left: -6, top: '50%', marginTop: -6, transform: 'rotate(45deg)', borderBottom: '1px solid #d4d4d4', borderLeft: '1px solid #d4d4d4', background: '#ffffff', overflow: 'visible' },
+    bottom: { position: 'absolute', width: 12, height: 12, top: -6, left: '50%', marginLeft: -6, transform: 'rotate(45deg)', borderTop: '1px solid #d4d4d4', borderLeft: '1px solid #d4d4d4', background: '#ffffff', overflow: 'visible' },
+    left: { position: 'absolute', width: 12, height: 12, right: -6, top: '50%', marginTop: -6, transform: 'rotate(45deg)', borderTop: '1px solid #d4d4d4', borderRight: '1px solid #d4d4d4', background: '#ffffff', overflow: 'visible' },
+  };
 
-        {showArrow && (
-          <div
-            className="absolute w-3 h-3 bg-surface"
-            style={arrowStyles[placement]}
-          />
-        )}
-      </div>
+  return (
+    <div className={twMerge(clsx('relative bg-surface border rounded-none p-4', popoverWidths[size], className))} style={{ overflow: 'visible' }}>
+      {(title || showClose) && (
+        <div className="flex flex-row justify-between items-center mb-2">
+          {title && <span className="text-sm font-semibold">{title}</span>}
+          {showClose && <IconButton icon={X} size="sm" onClick={onClose} label="Close" />}
+        </div>
+      )}
+      <div className="text-sm text-text-muted">{children}</div>
+      <div className="absolute w-3 h-3" style={arrowStyles[placement]} />
     </div>
   );
 }
 
-interface AnchorPopoverProps extends Omit<PopoverProps, 'open' | 'onClose'> {
+interface AnchorPopoverProps {
   anchor: ReactNode;
-  onOpen?: () => void;
+  placement?: PopoverPlacement;
+  size?: PopoverSize;
+  title?: string;
+  showClose?: boolean;
+  children: ReactNode;
+  className?: string;
 }
 
 export function AnchorPopover({
   anchor,
-  onOpen,
   placement = 'bottom',
+  size = 'md',
+  title,
+  showClose,
+  children,
   className,
-  ...props
 }: AnchorPopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
+
+  const triggerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let el = document.getElementById('popover-container');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'popover-container';
+      el.style.zIndex = '9999';
+      document.body.appendChild(el);
+    }
+    setContainerEl(el);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (triggerRef.current && !triggerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -122,110 +107,99 @@ export function AnchorPopover({
     }
   }, [isOpen]);
 
-  const anchorRef = useRef<HTMLElement>(null);
-  const [popoverStyle, setPopoverStyle] = useState<React.CSSProperties>({});
+  useEffect(() => {
+    if (isOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const offset = 8;
+      let top = 0;
+      let left = 0;
 
-  const updatePopoverPosition = () => {
-    if (!anchorRef.current || !containerRef.current) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const anchorRect = anchorRef.current.getBoundingClientRect();
-
-    const anchorRelLeft = anchorRect.left - containerRect.left;
-    const anchorRelTop = anchorRect.top - containerRect.top;
-    const anchorWidth = anchorRect.width;
-    const anchorHeight = anchorRect.height;
-
-    const base: React.CSSProperties = { position: 'absolute', zIndex: 100 };
-
-    switch (placement) {
-      case 'top':
-        setPopoverStyle({
-          ...base,
-          left: anchorRelLeft + anchorWidth / 2,
-          transform: 'translateX(-50%)',
-          bottom: containerRect.height - anchorRelTop + 8,
-        });
-        break;
-      case 'right':
-        setPopoverStyle({
-          ...base,
-          left: anchorRelLeft + anchorWidth + 8,
-          top: anchorRelTop + anchorHeight / 2,
-          transform: 'translateY(-50%)',
-        });
-        break;
-      case 'bottom':
-        setPopoverStyle({
-          ...base,
-          left: anchorRelLeft + anchorWidth / 2,
-          transform: 'translateX(-50%)',
-          top: anchorRelTop + anchorHeight + 8,
-        });
-        break;
-      case 'left':
-        setPopoverStyle({
-          ...base,
-          right: containerRect.width - anchorRelLeft + 8,
-          top: anchorRelTop + anchorHeight / 2,
-          transform: 'translateY(-50%)',
-        });
-        break;
-      default:
-        setPopoverStyle(base);
-    }
-  };
-
-  useLayoutEffect(() => {
-    if (isOpen) {
-      updatePopoverPosition();
-      const handleResize = () => updatePopoverPosition();
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    } else {
-      setPopoverStyle({});
+      switch (placement) {
+        case 'top':
+          top = rect.top + window.scrollY - offset;
+          left = rect.left + rect.width / 2 + window.scrollX;
+          break;
+        case 'bottom':
+          top = rect.bottom + window.scrollY + offset;
+          left = rect.left + rect.width / 2 + window.scrollX;
+          break;
+        case 'left':
+          top = rect.top + rect.height / 2 + window.scrollY;
+          left = rect.left + window.scrollX - offset;
+          break;
+        case 'right':
+          top = rect.top + rect.height / 2 + window.scrollY;
+          left = rect.right + window.scrollX + offset;
+          break;
+      }
+      setPosition({ top, left });
     }
   }, [isOpen, placement]);
 
-  const handleTriggerClick = () => {
-    setIsOpen(true);
-    onOpen?.();
+  const handleClick = () => {
+    setIsOpen(!isOpen);
   };
 
-  return (
-    <div ref={containerRef} className={twMerge(clsx('relative inline-block', className))}>
-      {isValidElement(anchor)
-        ? cloneElement(anchor, {
-            ref: (node: HTMLElement) => {
-              anchorRef.current = node;
-              const originalRef = (anchor as any).ref;
-              if (typeof originalRef === 'function') {
-                originalRef(node);
-              } else if (originalRef && 'current' in originalRef) {
-                (originalRef as React.MutableRefObject<HTMLElement>).current = node;
-              }
-            },
-            onClick: (e: any) => {
-              const originalOnClick = (anchor as any).props?.onClick;
-              if (originalOnClick) originalOnClick(e);
-              handleTriggerClick();
-            },
-          } as any)
-        : (
-          <div className="cursor-pointer" onClick={handleTriggerClick} ref={anchorRef}>
-            {anchor}
-          </div>
-        )}
-      {isOpen && (
-        <div style={popoverStyle}>
-          <Popover
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            placement={placement}
-            {...props}
-          />
-        </div>
-      )}
+  const getTransform = () => {
+    switch (placement) {
+      case 'top':
+        return 'translate(-50%, -100%)';
+      case 'bottom':
+        return 'translate(-50%, 0%)';
+      case 'left':
+        return 'translate(-100%, -50%)';
+      case 'right':
+        return 'translate(0%, -50%)';
+    }
+  };
+
+  const getLeft = () => {
+    if (placement === 'top' || placement === 'bottom') {
+      return position.left;
+    }
+    if (placement === 'left') {
+      return position.left;
+    }
+    return position.left;
+  };
+
+  const getTop = () => {
+    if (placement === 'left' || placement === 'right') {
+      return position.top;
+    }
+    return position.top;
+  };
+
+  const popoverWrapper = (
+    <div
+      style={{
+        position: 'absolute',
+        top: getTop(),
+        left: getLeft(),
+        transform: getTransform(),
+        overflow: 'visible',
+      }}
+    >
+      <Popover
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        placement={placement}
+        size={size}
+        showArrow={true}
+        title={title}
+        showClose={showClose}
+      >
+        {children}
+      </Popover>
     </div>
+  );
+
+  return (
+    <>
+      <div ref={triggerRef} onClick={handleClick} style={{ position: 'relative', display: 'inline-block', boxSizing: 'border-box' }}>
+        {anchor}
+      </div>
+      {isOpen && containerEl && createPortal(popoverWrapper, containerEl)}
+    </>
   );
 }
